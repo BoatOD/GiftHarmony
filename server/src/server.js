@@ -2,7 +2,10 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
+require("dotenv").config();
 const corsOptions = require("./configuration/corsOptions");
+const bodyParser = require("body-parser");
+const { connect } = require("./app/middleware/db.js");
 const { logger } = require("./app/middleware/logEvents");
 const errorHandler = require("./app/middleware/errorHandler");
 const verifyJWT = require("./app/middleware/verifyJWT");
@@ -19,6 +22,15 @@ app.use(credentials);
 
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
+
+connect()
+  .then((connection) => {
+    console.log("Connected to the database.");
+  })
+  .catch((error) => {
+    console.log("Database connection failed!");
+    console.log(error);
+  });
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
