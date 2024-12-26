@@ -15,7 +15,7 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { useContext } from "react";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate, useLocation } from "react-router-dom";
-import { UserContext } from "../utils/Usercontext";
+import { UserContext } from "../utils/UserContext";
 
 const pages = [
   { pageName: "Home", path: "" },

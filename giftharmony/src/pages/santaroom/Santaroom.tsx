@@ -4,7 +4,7 @@ import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
 import hatsanta from "../../assets/hatsanta.svg";
 import { useNavigate } from "react-router-dom";
 import SearchBox from "../../component/SearchBox";
-import Santaroomtable from "../../component/santaroom/Santaroomtable";
+import SantaroomTable from "../../component/santaroom/SantaroomTable";
 
 const SantaRoom = () => {
   const navigate = useNavigate();
@@ -82,7 +82,7 @@ const SantaRoom = () => {
         }}
       >
         <Grid2 size={12}>
-          <Santaroomtable />
+          <SantaroomTable />
         </Grid2>
       </Grid2>
     </Box>
