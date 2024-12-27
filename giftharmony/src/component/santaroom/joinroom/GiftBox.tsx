@@ -2,7 +2,12 @@ import { Box } from "@mui/material/";
 import Typography from "@mui/material/Typography";
 import gift from "../../../assets/gift.svg";
 
-const GiftBox = () => {
+interface Props {
+  name: string;
+}
+
+const GiftBox = (props: Props) => {
+  const { name } = props;
   return (
     <Box
       sx={{
@@ -24,7 +29,7 @@ const GiftBox = () => {
       <Typography
         sx={{
           position: "absolute",
-          top: "50%",
+          top: "80%",
           left: "50%",
           transform: "translate(-50%, -50%)",
           backgroundColor: "#8C5959",
@@ -36,7 +41,7 @@ const GiftBox = () => {
           textAlign: "center",
         }}
       >
-        Name
+        {name}
       </Typography>
     </Box>
   );
