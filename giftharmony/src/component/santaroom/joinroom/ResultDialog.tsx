@@ -9,7 +9,6 @@ interface Props {
   onClose: () => void;
 }
 
-// ฟังก์ชันสุ่มจับคู่กล่อง
 const shuffleArray = (array: number[]) => {
   return array.sort(() => Math.random() - 0.5);
 };
@@ -30,14 +29,13 @@ const ResultDialog = (props: Props) => {
 
   useEffect(() => {
     if (open) {
-      // Randomly shuffle box ids and create connections
       const shuffled = shuffleArray([...Array(boxes.length).keys()]);
       const newConnections: { boxAId: string; boxBId: string }[] = [];
       const newPairs: [number, number][] = [];
 
       for (let i = 0; i < shuffled.length; i++) {
         const boxAId = `box-${boxes[shuffled[i]].id}`;
-        const boxBId = `box-${boxes[shuffled[(i + 1) % shuffled.length]].id}`; // Connect the last one back to the first
+        const boxBId = `box-${boxes[shuffled[(i + 1) % shuffled.length]].id}`; 
         newConnections.push({ boxAId, boxBId });
         if (shuffled[i + 1] !== undefined) {
             newPairs.push([shuffled[i], shuffled[i + 1]]);
@@ -47,6 +45,7 @@ const ResultDialog = (props: Props) => {
       setConnections(newConnections);
       setPairs(newPairs);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, boxes.length]);
 
   return (

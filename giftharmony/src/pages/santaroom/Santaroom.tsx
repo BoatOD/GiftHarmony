@@ -1,4 +1,4 @@
-import { Box, Grid2, IconButton, Typography } from "@mui/material/";
+import { Box, Grid2, IconButton, Tooltip, Typography } from "@mui/material/";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
 import hatsanta from "../../assets/hatsanta.svg";
@@ -67,9 +67,11 @@ const SantaRoom = () => {
         </Box>
         <Box>
           <SearchBox />
-          <IconButton sx={{ ml: 1 }}>
-            <SortByAlphaIcon />
-          </IconButton>
+          <Tooltip title="Sort Name for DSEC" arrow placement="top">
+            <IconButton sx={{ ml: 1 }}>
+              <SortByAlphaIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Grid2>
       <Grid2

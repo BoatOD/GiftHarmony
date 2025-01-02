@@ -5,6 +5,7 @@ import Home from "./pages/home/Home";
 import Userprovider from "./providers/UserProvider";
 import SantaRoom from "./pages/santaroom/Santaroom";
 import SantaroomJoinRoom from "./component/santaroom/joinroom/SantaroomJoinRoom";
+import HostRoom from "./pages/hostroom/HostRoom";
 
 const App = () => {
   return (
@@ -17,6 +18,8 @@ const App = () => {
                 <Route element={<Home />} index />
                 <Route path="santaroom" element={<SantaRoom/>} />
                 <Route path="santaroom/joinroom" element={<SantaroomJoinRoom/>} />
+                <Route path="hostroom" element={<HostRoom/>}/>
+                <Route path="hostroom/joinroom" element={<SantaroomJoinRoom/>} />
               </Route>
             </Route>
           </Routes>
