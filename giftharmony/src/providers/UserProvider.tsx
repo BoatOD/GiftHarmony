@@ -24,6 +24,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const onSuccess = (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
     if ("profileObj" in response) {
       console.log("Login successful", response);
+      
       setProfile(response.profileObj);
     } else {
       console.log("Offline login response", response);
