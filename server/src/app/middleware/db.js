@@ -6,7 +6,6 @@ const connectionString = process.env.CONNECTION_STRING;
 // Normal queries to db handled here
 async function executeQuery(query, values = [], paramNames = [], isStoredProcedure = true, outputParamName = null) {
     try {
-        console.log(connectionString);
       const pool = await sql.connect(connectionString);
       const request = pool.request();
   
