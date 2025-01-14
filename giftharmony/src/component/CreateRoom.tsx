@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -8,7 +8,10 @@ import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import { UserContext } from "../utils/UserContext";
+import { useContext, useEffect } from "react";
 import chirstmasVeed from "../assets/chirstmasveed.svg";
+import useCreateRoomForm from "../hooks/useCreateRoomForm";
 
 interface Props {
   open: boolean;
@@ -16,6 +19,33 @@ interface Props {
 }
 const CreateRoom = (props: Props) => {
   const { open, onClose } = props;
+  const { profile } = useContext(UserContext);
+
+  const {
+    onSubmit,
+    register,
+    errors,
+    isSubmitting,
+    clearErrors,
+    setValue,
+    reset,
+    isSubmitSuccessful,
+  } = useCreateRoomForm({});
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      // getData();
+      // refreshUserProfile();
+      onClose();
+      reset();
+    }
+  }, [isSubmitSuccessful, onClose, reset]);
+
+  useEffect(() => {
+    reset();
+    clearErrors();
+  }, [clearErrors, props.open, reset, setValue]);
+
   return (
     <Dialog
       open={open}
@@ -42,15 +72,14 @@ const CreateRoom = (props: Props) => {
         alt="chirstmas veed"
         sx={{
           position: "absolute",
-          top: -80,
-          left: 0,
-          width: "100%",
+          top: -40,
+          left: -40,
+          width: "120%",
           height: "70%",
           objectFit: "cover",
           zIndex: 1,
         }}
       />
-
       <Box
         sx={{
           display: "flex",
@@ -73,45 +102,47 @@ const CreateRoom = (props: Props) => {
           >
             Host :
           </Typography>
-          <Typography sx={{ color: "#4C6B39", fontWeight: 600, fontSize: 18 }}>
-            Jiranthanin
+          <Typography sx={{ color: "#703232", fontWeight: 600, fontSize: 18 }}>
+            {profile?.name}
           </Typography>
         </DialogTitle>
       </Box>
-
-      <DialogContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 1,
-        }}
-      >
-        <Typography>Room : </Typography>
-        <TextField
-          autoFocus
-          required
-          id="room"
-          name="room"
-          label="Type your room’s name"
-          fullWidth
-          variant="outlined"
-        />
-        <Typography>Member : </Typography>
-        <TextField
-          required
-          id="member"
-          name="member"
-          fullWidth
-          variant="outlined"
-          type="number"
-          defaultValue={1}
-          inputProps={{
-            min: 1,
+      <form id="create-room-form" onSubmit={onSubmit}>
+        <DialogContent
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
           }}
-        />
-      </DialogContent>
+        >
+          <Typography>Room's name : </Typography>
+          <TextField
+            autoFocus
+            required
+            label="Type your room's name"
+            autoComplete="off"
+            fullWidth
+            variant="outlined"
+            error={!!errors?.name}
+            {...register("name", {
+              required: {
+                value: true,
+                message: "Room's name is required",
+              },
+              pattern: {
+                value: /\S/,
+                message: "Invalid reason",
+              },
+            })}
+            helperText={errors?.name?.message}
+            inputProps={{
+              maxLength: 30,
+            }}
+          />
+        </DialogContent>
+      </form>
       <DialogActions sx={{ justifyContent: "center", mb: 2 }}>
-        <Button
+        {/* <Button
           type="submit"
           sx={{
             bgcolor: "button.dark",
@@ -120,7 +151,21 @@ const CreateRoom = (props: Props) => {
           }}
         >
           Create
-        </Button>
+        </Button> */}
+        <LoadingButton
+          loading={isSubmitting}
+          type="submit"
+          form="create-room-form"
+          variant="contained"
+          size="large"
+          sx={{
+            bgcolor: "button.dark",
+            color: "font.main",
+            minWidth: "100px",
+          }}
+        >
+          Create
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   );

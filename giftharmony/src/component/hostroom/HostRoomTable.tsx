@@ -1,21 +1,15 @@
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import LoginIcon from "@mui/icons-material/Login";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SantaroomAlert from "../santaroom/SantaroomAlert";
+import IconButton from "@mui/material/IconButton";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material/";
 
 const HostRoomTable = () => {
   const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const columns = ["Room’s name", "Member", "Action"];
+  const columns = ["Room’s name", "Action"];
 
   return (
     <>
@@ -72,25 +66,14 @@ const HostRoomTable = () => {
                     textAlign: "center",
                   }}
                 >
-                  2 / 10
-                </TableCell>
-                <TableCell
-                  sx={{
-                    textAlign: "center",
-                  }}
-                >
-                  <Button
-                    variant="contained"
+                  <IconButton
                     sx={{
                       bgcolor: "button.dark",
-                      color: "font.main",
-                      borderRadius: "10%",
-                      ml: 2,
                     }}
                     onClick={() => navigate("joinroom")}
                   >
                     <LoginIcon />
-                  </Button>
+                  </IconButton>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -106,25 +89,14 @@ const HostRoomTable = () => {
                     textAlign: "center",
                   }}
                 >
-                  2 / 10
-                </TableCell>
-                <TableCell
-                  sx={{
-                    textAlign: "center",
-                  }}
-                >
-                  <Button
-                    variant="contained"
+                  <IconButton
                     sx={{
                       bgcolor: "button.dark",
-                      color: "font.main",
-                      borderRadius: "10%",
-                      ml: 2,
                     }}
                     onClick={() => navigate("joinroom")}
                   >
                     <LoginIcon />
-                  </Button>
+                  </IconButton>
                 </TableCell>
               </TableRow>
             </TableBody>

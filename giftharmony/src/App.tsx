@@ -17,9 +17,9 @@ const App = () => {
               <Route element={<Pagelayout />}>
                 <Route element={<Home />} index />
                 <Route path="santaroom" element={<SantaRoom/>} />
-                <Route path="santaroom/santaroom" element={<SantaroomJoinRoom/>} />
+                <Route path="santaroom/joinroom" element={<SantaroomJoinRoom/>} />
                 <Route path="hostroom" element={<HostRoom/>}/>
-                <Route path="hostroom/santaroom" element={<SantaroomJoinRoom/>} />
+                <Route path="hostroom/joinroom" element={<SantaroomJoinRoom/>} />
               </Route>
             </Route>
           </Routes>
