@@ -1,24 +1,16 @@
 import Grid2 from "@mui/material/Grid2";
 import HostRoomTable from "./HostRoomTable";
-import chirstmastree from "../../assets/chirstmastree.svg";
+import ChristmasTree from "../ChirstmasTree";
+// import chirstmastree from "../../assets/chirstmastree.svg";
 
 const HostRoomDiaplay = () => {
   return (
-    <Grid2 container spacing={4} alignItems="stretch">
-      {/* Left Section - รูปภาพ */}
-      <Grid2 size={3} display="flex" justifyContent="center" alignItems="stretch">
-        <img
-          src={chirstmastree}
-          alt="chirstmastree"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
-        />
+    <Grid2 container spacing={10} alignItems="stretch">
+
+      <Grid2 size={3} display="flex" justifyContent="center">
+        <ChristmasTree/>
       </Grid2>
 
-      {/* Right Section - ตาราง */}
       <Grid2 size={9}>
         <HostRoomTable />
       </Grid2>

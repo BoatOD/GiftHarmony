@@ -18,12 +18,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../utils/UserContext";
 import axios from "axios";
 
-const pages = [
-  { pageName: "Home", path: "" },
-  { pageName: "Santa 's Room", path: "santaroom" },
-  { pageName: "Host Room", path: "hostroom" },
-];
-
 const base_url = import.meta.env.VITE_API_URL;
 
 function ResponsiveAppBar() {
@@ -37,6 +31,12 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  const pages = [
+    { pageName: "Home", path: "" },
+    ...(profile ? [{ pageName: "Santa's Room", path: "santaroom" }] : []),
+    { pageName: "Host Room", path: "hostroom" },
+  ];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);

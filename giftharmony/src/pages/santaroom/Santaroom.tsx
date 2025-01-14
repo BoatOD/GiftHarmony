@@ -4,7 +4,7 @@ import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
 import hatsanta from "../../assets/hatsanta.svg";
 import { useNavigate } from "react-router-dom";
 import SearchBox from "../../component/SearchBox";
-import SantaroomTable from "../../component/santaroom/SantaroomTable";
+import SantaroomTable from "../../component/santaroom/Santaroomtable";
 
 const SantaRoom = () => {
   const navigate = useNavigate();

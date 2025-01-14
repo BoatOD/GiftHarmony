@@ -1,11 +1,11 @@
-import { Box, IconButton, Tooltip, Typography } from "@mui/material/";
+import { Box, IconButton, Typography } from "@mui/material/";
 import Grid2 from "@mui/material/Grid2";
 import SearchBox from "../../component/SearchBox";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
 import hatsanta from "../../assets/hatsanta.svg";
 import { useNavigate } from "react-router-dom";
 import HostRoomDiaplay from "../../component/hostroom/HostRoomDisplay";
+import SortBox from "../../component/SortBox";
 
 const HostRoom = () => {
   const navigate = useNavigate();
@@ -68,11 +68,7 @@ const HostRoom = () => {
           </Box>
           <Box>
             <SearchBox />
-            <Tooltip title="Sort Name for DSEC" arrow placement="top">
-              <IconButton sx={{ ml: 1 }}>
-                <SortByAlphaIcon />
-              </IconButton>
-            </Tooltip>
+            <SortBox/>
           </Box>
         </Grid2>
         <Grid2
