@@ -4,15 +4,15 @@ import chirstmastree from "../../assets/chirstmastree.svg";
 
 const HostRoomDiaplay = () => {
   return (
-    <Grid2 container spacing={4} alignItems="stretch">
+    <Grid2 container spacing={10} alignItems="stretch">
       {/* Left Section - รูปภาพ */}
       <Grid2 size={3} display="flex" justifyContent="center" alignItems="stretch">
         <img
           src={chirstmastree}
           alt="chirstmastree"
           style={{
-            width: "100%",
-            height: "100%",
+            width: "auto",
+            height: "50%",
             objectFit: "cover",
           }}
         />
