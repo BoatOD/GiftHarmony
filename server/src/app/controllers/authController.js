@@ -1,18 +1,8 @@
-const usersDB = {
-  users: require("../models/users.json"),
-  setUsers: function (data) {
-    this.users = data;
-  },
-};
-const bcrypt = require("bcrypt");
-
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client();
 
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const fsPromises = require("fs").promises;
-const path = require("path");
 
 const { executeQuery } = require("../middleware/db.js");
 
@@ -54,36 +44,46 @@ const handleLogin = async (req, res) => {
         false
       );
     }
+
+    const userData = foundUser.recordset[0];
+
     // create JWTs
     const accessToken = jwt.sign(
       {
-        FirstName: foundUser.recordset.FirstName,
-        LastName: foundUser.recordset.LastName,
-        Email: foundUser.recordset.Email,
+        FirstName: userData.FirstName,
+        LastName: userData.LastName,
+        Email: userData.Email,
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "600s" }
+      { expiresIn: "600s" } // 10 minutes
     );
     const refreshToken = jwt.sign(
       {
-        FirstName: foundUser.recordset.FirstName,
-        LastName: foundUser.recordset.LastName,
-        Email: foundUser.recordset.Email,
+        FirstName: userData.FirstName,
+        LastName: userData.LastName,
+        Email: userData.Email,
       },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "1d" } // 1 day
     );
-    // Saving refreshToken with current user
-    const otherUsers = await executeQuery(
-      "SELECT * FROM Users WHERE Email NOT LIKE @Email",
-      [payload.email],
-      ["Email"],
+
+    // Store the refresh token in the database
+    await executeQuery(
+      "UPDATE Users SET RefreshToken = @RefreshToken WHERE Email = @Email",
+      [refreshToken, userData.Email],
+      ["RefreshToken", "Email"],
       false
     );
+
+    // Send refresh token as a secure cookie
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: "Strict",
       maxAge: 24 * 60 * 60 * 1000,
     });
+
+    // Send the access token in the response
     res.json({ accessToken });
   } catch (error) {
     console.error(error);

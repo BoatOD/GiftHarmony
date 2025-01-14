@@ -11,7 +11,6 @@ import axios from "axios";
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [profile, setProfile] = useState<IProfile | null>(null);
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-  console.log(import.meta.env.VITE_GOOGLE_CLIENT_ID);
   const base_url = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -31,18 +30,19 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   ) => {
     if ("profileObj" in response) {
       console.log("Login successful");
-      console.log(response.getAuthResponse().id_token);
       const token: string = response.getAuthResponse().id_token;
       const res = await axios.post(
         base_url + "/auth",
         {},
         {
+          withCredentials: true,
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
       localStorage.setItem("token", res.data.accessToken);
+      console.log(document.cookie);
       setProfile(response.profileObj);
     } else {
       console.log("Offline login response", response);

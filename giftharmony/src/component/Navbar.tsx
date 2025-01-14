@@ -16,6 +16,7 @@ import { useContext } from "react";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../utils/UserContext";
+import axios from "axios";
 
 const pages = [
   { pageName: "Home", path: "" },
@@ -23,13 +24,19 @@ const pages = [
   { pageName: "Host Room", path: "hostroom" },
 ];
 
+const base_url = import.meta.env.VITE_API_URL;
+
 function ResponsiveAppBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { profile, onSuccess, onFailure, clientId, logOut } =
     useContext(UserContext);
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -47,12 +54,25 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+  const handleLogout = async (renderProps: { onClick: () => void, disabled?: boolean }) => {
+    localStorage.removeItem("token");
+    try {
+      // Send logout request with credentials (cookies)
+      await axios.get(base_url + "/logout", { withCredentials: true });
+  
+      // Trigger the onClick action
+      renderProps.onClick();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  }
+
   return (
     <AppBar position="sticky" sx={{ bgcolor: "general.light" }}>
       <Container maxWidth={false} disableGutters>
         <Toolbar disableGutters>
           {/* Mobile Menu */}
-          <Box sx={{display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -114,8 +134,14 @@ function ResponsiveAppBar() {
                 key={page.path}
                 onClick={() => navigate(`/${page.path}`)}
                 sx={{
-                  textDecoration: location.pathname === `/${page.path}` ? "underline" : "none",
-                  textDecorationColor: location.pathname === `/${page.path}` ? "#8D0000" : "transparent", 
+                  textDecoration:
+                    location.pathname === `/${page.path}`
+                      ? "underline"
+                      : "none",
+                  textDecorationColor:
+                    location.pathname === `/${page.path}`
+                      ? "#8D0000"
+                      : "transparent",
                 }}
               >
                 <Typography
@@ -206,7 +232,7 @@ function ResponsiveAppBar() {
                           px: 3,
                           mb: 1,
                         }}
-                        onClick={renderProps.onClick}
+                        onClick={() => handleLogout(renderProps)}
                         disabled={renderProps.disabled}
                       >
                         Log out

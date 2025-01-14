@@ -1,35 +1,42 @@
-const usersDB = {
-    users: require('../models/users.json'),
-    setUsers: function (data) { this.users = data }
-}
-const fsPromises = require('fs').promises;
-const path = require('path');
+const { executeQuery } = require("../middleware/db.js");
+require("dotenv").config();
 
 const handleLogout = async (req, res) => {
-    // On client, also delete the accessToken
+  // On client, also delete the accessToken
 
-    const cookies = req.cookies;
-    if (!cookies?.jwt) return res.sendStatus(204); //No content
-    const refreshToken = cookies.jwt;
+  const cookies = req.cookies;
+  if (!cookies?.jwt) return res.sendStatus(204); //No content
+  const refreshToken = cookies.jwt;
 
-    // Is refreshToken in db?
-    const foundUser = usersDB.users.find(person => person.refreshToken === refreshToken);
-    if (!foundUser) {
-        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
-        return res.sendStatus(204);
-    }
+  // Is refreshToken in db?
+  const foundUser = await executeQuery(
+    "SELECT * FROM Users WHERE RefreshToken = @RefreshToken",
+    [refreshToken],
+    ["RefreshToken"],
+    false
+  );
+  if (!foundUser) {
+    res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: process.env.NODE_ENV === 'production' });
+    return res.sendStatus(204);
+  }
 
-    // Delete refreshToken in db
-    const otherUsers = usersDB.users.filter(person => person.refreshToken !== foundUser.refreshToken);
-    const currentUser = { ...foundUser, refreshToken: '' };
-    usersDB.setUsers([...otherUsers, currentUser]);
-    await fsPromises.writeFile(
-        path.join(__dirname, '..', 'models', 'users.json'),
-        JSON.stringify(usersDB.users)
+  const userData = foundUser.recordset[0];
+
+  // Delete refreshToken in db
+  try {
+    await executeQuery(
+      "UPDATE Users SET RefreshToken = @RefreshToken WHERE Email = @Email",
+      ["", userData.Email],
+      ["RefreshToken", "Email"],
+      false
     );
+  } catch (error) {
+    console.error("Error clearing refresh token:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
 
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
-    res.sendStatus(204);
-}
+  res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: process.env.NODE_ENV === 'production' });
+  res.sendStatus(204);
+};
 
-module.exports = { handleLogout }
+module.exports = { handleLogout };
