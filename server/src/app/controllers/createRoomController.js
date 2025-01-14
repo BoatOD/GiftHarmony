@@ -37,7 +37,7 @@ const createRoom = async (req, res) => {
         ["Code"],
         false
       );
-      if (!foundRoom) isFound = false;
+      if (foundRoom.recordset.length < 1) isFound = false;
     }
 
     await executeQuery(
@@ -46,10 +46,11 @@ const createRoom = async (req, res) => {
       ["HostId", "Name", "Code", "Date", "IsActive"],
       false
     );
-    res.status(201);
+
+    return res.status(201).json({ message: "Create room succeeded." });;
   } catch (error) {
     console.error(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 };
 

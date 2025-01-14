@@ -50,6 +50,7 @@ app.use("/auth", require("./app/routes/auth"));
 app.use('/refresh', require('./app/routes/refresh'));
 app.use('/logout', require('./app/routes/logout'));
 
+//Private routes
 app.use(verifyJWT);
 app.use("/createRoom", require("./app/routes/createRoom"));
 
