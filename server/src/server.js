@@ -51,7 +51,7 @@ app.use('/refresh', require('./app/routes/refresh'));
 app.use('/logout', require('./app/routes/logout'));
 
 app.use(verifyJWT);
-// app.use("/employees", require("./routes/api/employees"));
+app.use("/createRoom", require("./app/routes/createRoom"));
 
 app.all("*", (req, res) => {
   res.status(404);
