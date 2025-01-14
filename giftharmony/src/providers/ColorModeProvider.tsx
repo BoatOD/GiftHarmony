@@ -1,6 +1,7 @@
 import { createTheme, PaletteMode, ThemeProvider } from "@mui/material";
 import { createContext, useMemo, useState } from "react";
-import { DefaultTheme, generalThemeConfig } from "../config/themeconfig";
+import { DefaultTheme, generalThemeConfig } from "../config/themeConfig";
+
 
 
 export const ColorModeContext = createContext({

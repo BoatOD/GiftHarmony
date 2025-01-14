@@ -16,6 +16,9 @@ import { useContext } from "react";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../utils/UserContext";
+import axios from "axios";
+
+const base_url = import.meta.env.VITE_API_URL;
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
@@ -50,6 +53,19 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogout = async (renderProps: { onClick: () => void, disabled?: boolean }) => {
+    localStorage.removeItem("token");
+    try {
+      // Send logout request with credentials (cookies)
+      await axios.get(base_url + "/logout", { withCredentials: true });
+  
+      // Trigger the onClick action
+      renderProps.onClick();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  }
 
   return (
     <AppBar position="sticky" sx={{ bgcolor: "general.light" }}>
@@ -216,7 +232,7 @@ function ResponsiveAppBar() {
                           px: 3,
                           mb: 1,
                         }}
-                        onClick={renderProps.onClick}
+                        onClick={() => handleLogout(renderProps)}
                         disabled={renderProps.disabled}
                       >
                         Log out

@@ -28,8 +28,7 @@ connect()
     console.log("Connected to the database.");
   })
   .catch((error) => {
-    console.log("Database connection failed!");
-    console.log(error);
+    console.error('Database connection error:', error);
   });
 
 // built-in middleware to handle urlencoded form data
