@@ -97,7 +97,9 @@ async function executeTableValuedQuery(
 }
 
 module.exports = {
-  connect: () => sql.connect(connectionString),
+  connect: async () => {
+    await sql.connect(connectionString);
+  },
   sql,
   executeQuery,
   executeTableValuedQuery,
