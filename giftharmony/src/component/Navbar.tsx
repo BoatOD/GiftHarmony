@@ -19,7 +19,7 @@ import { UserContext } from "../utils/UserContext";
 
 const pages = [
   { pageName: "Home", path: "" },
-  { pageName: "Santa 's Room", path: "santaroom" },
+  // { pageName: "Santa 's Room", path: "santaroom" },
   { pageName: "Host Room", path: "hostroom" },
 ];
 

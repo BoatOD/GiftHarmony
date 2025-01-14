@@ -7,7 +7,7 @@ import { UserContext } from "../utils/UserContext";
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   
   const [profile, setProfile] = useState<IProfile | null>(null);
-  const clientId = "810479308587-c60mrh8928o0sedb3dvimijp93i7sis0.apps.googleusercontent.com";
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   useEffect(() => {
     const initClient = () => {

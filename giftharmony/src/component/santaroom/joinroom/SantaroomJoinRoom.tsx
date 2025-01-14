@@ -14,7 +14,7 @@ import gift from "../../../assets/gift.svg";
 import JoinRoomAlert from "./JoinRoomAlert";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
-import ResultDialog from "./resultDialog";
+import ResultDialog from "./ResultDialog";
 
 const SantaroomJoinRoom = () => {
   const navigate = useNavigate();
@@ -63,19 +63,11 @@ const SantaroomJoinRoom = () => {
             }}
           >
             <Typography sx={{ fontSize: 18, fontWeight: 600 }}>
-              Host :
-            </Typography>
-            <Typography sx={{ fontSize: 18, fontWeight: 500 }}>
-              Jiranthanin
+              Room ID : AFM2
             </Typography>
             <Avatar
-              alt="Profile"
+              alt="Santa"
               src={santa}
-              sx={{
-                backgroundColor: "pink",
-                width: 40,
-                height: 40,
-              }}
             />
           </Box>
         </Grid2>
