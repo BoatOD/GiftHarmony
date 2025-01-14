@@ -15,7 +15,7 @@ const SantaroomTable = () => {
   const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const columns = ["Room’s name", "Host", "Member", "Action"];
+  const columns = ["Room's name", "Host", "Member", "Action"];
 
   return (
     <>

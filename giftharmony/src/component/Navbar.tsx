@@ -17,19 +17,23 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../utils/UserContext";
 
-const pages = [
-  { pageName: "Home", path: "" },
-  // { pageName: "Santa 's Room", path: "santaroom" },
-  { pageName: "Host Room", path: "hostroom" },
-];
-
 function ResponsiveAppBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { profile, onSuccess, onFailure, clientId, logOut } =
     useContext(UserContext);
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
+
+  const pages = [
+    { pageName: "Home", path: "" },
+    ...(profile ? [{ pageName: "Santa's Room", path: "santaroom" }] : []),
+    { pageName: "Host Room", path: "hostroom" },
+  ];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -52,7 +56,7 @@ function ResponsiveAppBar() {
       <Container maxWidth={false} disableGutters>
         <Toolbar disableGutters>
           {/* Mobile Menu */}
-          <Box sx={{display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -114,8 +118,14 @@ function ResponsiveAppBar() {
                 key={page.path}
                 onClick={() => navigate(`/${page.path}`)}
                 sx={{
-                  textDecoration: location.pathname === `/${page.path}` ? "underline" : "none",
-                  textDecorationColor: location.pathname === `/${page.path}` ? "#8D0000" : "transparent", 
+                  textDecoration:
+                    location.pathname === `/${page.path}`
+                      ? "underline"
+                      : "none",
+                  textDecorationColor:
+                    location.pathname === `/${page.path}`
+                      ? "#8D0000"
+                      : "transparent",
                 }}
               >
                 <Typography

@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { IconButton, Box } from "@mui/material/";
-import gift from "../../assets/gift.svg";
+import sendgift from "../../assets/sendgift.svg";
 
 interface Props {
   open: boolean;
@@ -24,7 +24,7 @@ const SantaroomForm = (props: Props) => {
       maxWidth="md"
       PaperProps={{
         sx: {
-          backgroundColor: "#FFEDED", 
+          backgroundColor: "#FFEDED",
           borderRadius: "16px",
           border: "5px solid #FFFFFF",
         },
@@ -51,21 +51,21 @@ const SantaroomForm = (props: Props) => {
             padding: 0,
             color: "#6A4B37",
             fontWeight: 800,
-            fontSize : 20
+            fontSize: 20,
           }}
         >
           Join in <br />
           คิดจะถึง คริสมาสไทม์’s Room
-          <Typography sx={{ color: "#DB8989", fontWeight: 600, fontSize : 18 }}>
+          <Typography sx={{ color: "#DB8989", fontWeight: 600, fontSize: 18 }}>
             Host : นีน คนสวยมาก
           </Typography>
         </DialogTitle>
 
         <Box sx={{ display: "flex" }}>
           <img
-            src={gift}
-            alt="gift-photo"
-            style={{ width: "220px", height: "auto" }}
+            src={sendgift}
+            alt="sendgift-photo"
+            style={{ width: "300px", height: "auto", objectFit: "cover" }}
           />
         </Box>
       </Box>
