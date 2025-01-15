@@ -48,10 +48,12 @@ app.use("/register", require("./app/routes/register"));
 app.use("/auth", require("./app/routes/auth"));
 app.use('/refresh', require('./app/routes/refresh'));
 app.use('/logout', require('./app/routes/logout'));
+app.use("/join", require("./app/routes/roomRoutes/joinRoom.js"));
 
 //Private routes
 app.use(verifyJWT);
 app.use("/createRoom", require("./app/routes/roomRoutes/createRoom.js"));
+app.use("/getRoom", require("./app/routes/roomRoutes/getRoom.js"));
 
 app.all("*", (req, res) => {
   res.status(404);
