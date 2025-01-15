@@ -7,6 +7,8 @@ import Typography from "@mui/material/Typography";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { IconButton, Box } from "@mui/material/";
 import sendgift from "../../assets/sendgift.svg";
+import { useState } from "react";
+import GiftForm from "./GiftForm";
 
 interface Props {
   open: boolean;
@@ -15,66 +17,76 @@ interface Props {
 
 const JoinRoomForm = (props: Props) => {
   const { open, onClose } = props;
+  const [openGift, setOpenGift] = useState<boolean>(false);
+
+  const handleJoinClick = () => {
+    setOpenGift(true); 
+    onClose(); 
+  };
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth="md"
-      PaperProps={{
-        sx: {
-          backgroundColor: "#FFEDED",
-          borderRadius: "16px",
-          border: "5px solid #FFFFFF",
-          width: "350px",
-          maxWidth: "none",
-        },
-      }}
-    >
-      <IconButton
-        onClick={onClose}
-        sx={{ position: "absolute", top: 8, right: 8 }}
-      >
-        <CloseOutlinedIcon />
-      </IconButton>
-      <Box sx={{ display: "flex" , mt : 3, justifyContent: 'center'}}>
-        <img
-          src={sendgift}
-          alt="sendgift-photo"
-          style={{ width: "15rem", height: "auto", objectFit: "cover" }}
-        />
-      </Box>
-
-      <DialogContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 1,
+    <>
+      <Dialog
+        open={open}
+        onClose={onClose}
+        maxWidth="md"
+        PaperProps={{
+          sx: {
+            backgroundColor: "#FFEDED",
+            borderRadius: "16px",
+            border: "5px solid #FFFFFF",
+            width: "350px",
+            maxWidth: "none",
+          },
         }}
       >
-        <Typography> Room ID </Typography>
-        <TextField
-          required
-          id="message"
-          name="message"
-          label="Type your room ID"
-          fullWidth
-          variant="outlined"
-        />
-      </DialogContent>
-      <DialogActions sx={{ justifyContent: "center", mb: 2 }}>
-        <Button
-          type="submit"
+        <IconButton
+          onClick={onClose}
+          sx={{ position: "absolute", top: 8, right: 8 }}
+        >
+          <CloseOutlinedIcon />
+        </IconButton>
+        <Box sx={{ display: "flex", mt: 3, justifyContent: "center" }}>
+          <img
+            src={sendgift}
+            alt="sendgift-photo"
+            style={{ width: "15rem", height: "auto", objectFit: "cover" }}
+          />
+        </Box>
+
+        <DialogContent
           sx={{
-            bgcolor: "button.main",
-            color: "font.main",
-            minWidth: "100px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
           }}
         >
-          Join
-        </Button>
-      </DialogActions>
-    </Dialog>
+          <Typography> Room ID </Typography>
+          <TextField
+            required
+            id="message"
+            name="message"
+            label="Type your room ID"
+            fullWidth
+            variant="outlined"
+          />
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: "center", mb: 2 }}>
+          <Button
+            type="submit"
+            onClick={handleJoinClick}
+            sx={{
+              bgcolor: "button.main",
+              color: "font.main",
+              minWidth: "100px",
+            }}
+          >
+            Join
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <GiftForm open={openGift} onClose={() => setOpenGift(false)} />
+    </>
   );
 };
 
