@@ -4,7 +4,6 @@ const path = require("path");
 const cors = require("cors");
 require("dotenv").config();
 const corsOptions = require("./configuration/corsOptions");
-const bodyParser = require("body-parser");
 const { connect } = require("./app/middleware/db.js");
 const { logger } = require("./app/middleware/logEvents");
 const errorHandler = require("./app/middleware/errorHandler");
@@ -52,7 +51,7 @@ app.use('/logout', require('./app/routes/logout'));
 
 //Private routes
 app.use(verifyJWT);
-app.use("/createRoom", require("./app/routes/createRoom"));
+app.use("/createRoom", require("./app/routes/roomRoutes/createRoom.js"));
 
 app.all("*", (req, res) => {
   res.status(404);
