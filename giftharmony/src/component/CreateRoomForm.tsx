@@ -12,12 +12,11 @@ import { UserContext } from "../utils/UserContext";
 import { useContext, useEffect } from "react";
 import chirstmasVeed from "../assets/chirstmasveed.svg";
 import useCreateRoomForm from "../hooks/useCreateRoomForm";
-
 interface Props {
   open: boolean;
   onClose: () => void;
 }
-const CreateRoom = (props: Props) => {
+const CreateRoomForm = (props: Props) => {
   const { open, onClose } = props;
   const { profile } = useContext(UserContext);
 
@@ -30,12 +29,10 @@ const CreateRoom = (props: Props) => {
     setValue,
     reset,
     isSubmitSuccessful,
-  } = useCreateRoomForm({});
+  } = useCreateRoomForm();
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      // getData();
-      // refreshUserProfile();
       onClose();
       reset();
     }
@@ -171,4 +168,4 @@ const CreateRoom = (props: Props) => {
   );
 };
 
-export default CreateRoom;
+export default CreateRoomForm;

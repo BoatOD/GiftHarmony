@@ -1,12 +1,12 @@
-import { Box, Typography, Paper, Grid2, Button } from "@mui/material";
+import { Box, Typography, Grid2, Button } from "@mui/material";
 import present from "../../assets/present.svg";
 import { useContext, useState } from "react";
 import GoogleLogin from "react-google-login";
 import GoogleIcon from "@mui/icons-material/Google";
-import CreateRoom from "../../component/CreateRoom";
 import { UserContext } from "../../utils/UserContext";
 import SantaroomForm from "../../component/santaroom/SantaroomForm";
 import { useNavigate } from "react-router-dom";
+import CreateRoomForm from "../../component/CreateRoomForm";
 
 const Home = () => {
   const { profile, onSuccess, onFailure, clientId } = useContext(UserContext);
@@ -165,7 +165,7 @@ const Home = () => {
           </Grid2>
         </Grid2>
       </Box>
-      <CreateRoom open={open} onClose={() => setOpen(false)} />
+      <CreateRoomForm open={open} onClose={() => setOpen(false)} />
       <SantaroomForm open={openJoin} onClose={() => setOpenJoin(false)} />
     </>
   );

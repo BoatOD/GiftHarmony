@@ -21,7 +21,7 @@ const useCreateRoomForm = () => {
   });
 
   const onFormValid = async (data: ICreateRoom) => {
-    await CreateRoomApi.getRoom()
+    await CreateRoomApi.createRoom(data)
       .then(() => {
         pushMessage("Create room successfully.", "success");
       })
