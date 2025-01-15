@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import React, { useState } from "react";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
-import SantaroomForm from "./SantaroomForm";
+import SantaroomForm from "../joinroom/JoinRoomForm";
 
 export interface Props {
   open: boolean;

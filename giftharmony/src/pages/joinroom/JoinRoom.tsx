@@ -8,15 +8,15 @@ import {
 } from "@mui/material/";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-import santa from "../../../assets/santa.svg";
+import santa from "../../assets/santa.svg";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
-import gift from "../../../assets/gift.svg";
-import JoinRoomAlert from "./JoinRoomAlert";
+import gift from "../../assets/gift.svg";
+import JoinRoomAlert from "../../component/joinroom/JoinRoomAlert";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
-import ResultDialog from "./ResultDialog";
+import ResultDialog from "../../component/joinroom/ResultDialog";
 
-const SantaroomJoinRoom = () => {
+const JoinRoom = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
   const [openResult, setOpenResult] = useState<boolean>(false);
@@ -164,4 +164,4 @@ const SantaroomJoinRoom = () => {
   );
 };
 
-export default SantaroomJoinRoom;
+export default JoinRoom;

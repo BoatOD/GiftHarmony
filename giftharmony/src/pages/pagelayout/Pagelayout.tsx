@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Navbar from "../../component/Navbar";
 
-const Pagelayout = () => {
+const PageLayout = () => {
   return (
       <Box
         id="pagelayout"
@@ -30,4 +30,4 @@ const Pagelayout = () => {
   );
 };
 
-export default Pagelayout;
+export default PageLayout;

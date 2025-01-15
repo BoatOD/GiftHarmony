@@ -1,8 +1,8 @@
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { Box, Dialog, DialogContent, IconButton, Typography } from "@mui/material/";
-import GiftBox from "./giftBox";
 import { useState, useEffect } from "react";
 import ConnectorLine from "./ConnectorLine";
+import GiftBox from "./GiftBox";
 
 interface Props {
   open: boolean;

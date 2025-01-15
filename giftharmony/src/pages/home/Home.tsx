@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import GoogleLogin from "react-google-login";
 import GoogleIcon from "@mui/icons-material/Google";
 import { UserContext } from "../../utils/UserContext";
-import SantaroomForm from "../../component/santaroom/SantaroomForm";
+import SantaroomForm from "../../component/joinroom/JoinRoomForm";
 import { useNavigate } from "react-router-dom";
 import CreateRoomForm from "../../component/CreateRoomForm";
 

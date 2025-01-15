@@ -3,7 +3,6 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { IconButton, Box } from "@mui/material/";
@@ -14,7 +13,7 @@ interface Props {
   onClose: () => void;
 }
 
-const SantaroomForm = (props: Props) => {
+const JoinRoomForm = (props: Props) => {
   const { open, onClose } = props;
 
   return (
@@ -27,6 +26,8 @@ const SantaroomForm = (props: Props) => {
           backgroundColor: "#FFEDED",
           borderRadius: "16px",
           border: "5px solid #FFFFFF",
+          width: "350px",
+          maxWidth: "none",
         },
       }}
     >
@@ -36,38 +37,12 @@ const SantaroomForm = (props: Props) => {
       >
         <CloseOutlinedIcon />
       </IconButton>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 2,
-          px: 3,
-          pt: 6,
-        }}
-      >
-        <DialogTitle
-          sx={{
-            textAlign: "left",
-            padding: 0,
-            color: "#6A4B37",
-            fontWeight: 800,
-            fontSize: 20,
-          }}
-        >
-          Join in <br />
-          คิดจะถึง คริสมาสไทม์’s Room
-          <Typography sx={{ color: "#DB8989", fontWeight: 600, fontSize: 18 }}>
-            Host : นีน คนสวยมาก
-          </Typography>
-        </DialogTitle>
-
-        <Box sx={{ display: "flex" }}>
-          <img
-            src={sendgift}
-            alt="sendgift-photo"
-            style={{ width: "300px", height: "auto", objectFit: "cover" }}
-          />
-        </Box>
+      <Box sx={{ display: "flex" , mt : 3, justifyContent: 'center'}}>
+        <img
+          src={sendgift}
+          alt="sendgift-photo"
+          style={{ width: "15rem", height: "auto", objectFit: "cover" }}
+        />
       </Box>
 
       <DialogContent
@@ -77,22 +52,12 @@ const SantaroomForm = (props: Props) => {
           gap: 1,
         }}
       >
-        <Typography>In gift : </Typography>
-        <TextField
-          autoFocus
-          required
-          id="gift"
-          name="gift"
-          label="Type your gift"
-          fullWidth
-          variant="outlined"
-        />
-        <Typography>Message : </Typography>
+        <Typography> Room ID </Typography>
         <TextField
           required
           id="message"
           name="message"
-          label="Type your message"
+          label="Type your room ID"
           fullWidth
           variant="outlined"
         />
@@ -113,4 +78,4 @@ const SantaroomForm = (props: Props) => {
   );
 };
 
-export default SantaroomForm;
+export default JoinRoomForm;
