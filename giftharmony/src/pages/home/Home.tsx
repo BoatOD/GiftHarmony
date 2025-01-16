@@ -4,9 +4,9 @@ import { useContext, useState } from "react";
 import GoogleLogin from "react-google-login";
 import GoogleIcon from "@mui/icons-material/Google";
 import CreateRoom from "../../component/CreateRoom";
-import { UserContext } from "../../utils/UserContext";
 import SantaroomForm from "../../component/santaroom/SantaroomForm";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../providers/UserProvider";
 
 const Home = () => {
   const { profile, onSuccess, onFailure, clientId } = useContext(UserContext);
