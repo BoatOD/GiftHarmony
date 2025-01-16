@@ -66,17 +66,6 @@ const joinRoom = async (req, res) => {
   const message = req.body.message || "";
 
   try {
-    const foundUser = await executeQuery(
-      "SELECT * FROM Participants WHERE UserId = @UserId",
-      [userId],
-      ["UserId"],
-      false
-    );
-    if (foundUser)
-      return res
-        .status(400)
-        .json({ message: "User has already joined this room." });
-
     const foundRoom = await executeQuery(
       "SELECT * FROM Rooms WHERE Code = @Code",
       [roomCode],
@@ -87,6 +76,17 @@ const joinRoom = async (req, res) => {
       return res.status(400).json({ message: "Room not found." });
 
     const roomData = foundRoom.recordset[0];
+
+    const foundUser = await executeQuery(
+      "SELECT * FROM Participants WHERE UserId = @UserId AND RoomId = @RoomId",
+      [userId, roomData.RoomId],
+      ["UserId", "RoomId"],
+      false
+    );
+    if (foundUser.recordset.length > 0)
+      return res
+        .status(400)
+        .json({ message: "User has already joined this room." });
 
     await executeQuery(
       "INSERT INTO Participants (RoomId, UserId, Name, PictureUrl, GiftDescription, Message, DateJoined, isActive) VALUES (@RoomId, @UserId, @Name, @PictureUrl, @GiftDescription, @Message, @DateJoined, @isActive)",
@@ -123,7 +123,6 @@ const joinRoom = async (req, res) => {
 const getRoom = async (req, res) => {
   const userId = req.userId;
   if (!userId || userId < 1) return res.status(400).json({message: "Missing user id."});
-
   try {
     const foundRooms = await executeQuery(
       "SELECT * FROM Rooms WHERE HostId = @UserId",
