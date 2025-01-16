@@ -1,12 +1,28 @@
 import { gapi } from "gapi-script";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext } from "react";
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login";
 import { IProfile } from "../interface/IProfile";
-import { UserContext } from "../utils/UserContext";
 import axios from "axios";
+
+export interface UserContextType {
+  profile: IProfile | null;
+  onSuccess: (res: GoogleLoginResponse | GoogleLoginResponseOffline) => void;
+  onFailure: (res: unknown) => void;
+  logOut: () => void;
+  clientId: string;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const UserContext = createContext<UserContextType>({
+  profile: null,
+  onSuccess: () => {},
+  onFailure: () => {},
+  logOut: () => {},
+  clientId: "",
+});
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [profile, setProfile] = useState<IProfile | null>(null);
@@ -42,7 +58,6 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }
       );
       localStorage.setItem("token", res.data.accessToken);
-      console.log(document.cookie);
       setProfile(response.profileObj);
     } else {
       console.log("Offline login response", response);

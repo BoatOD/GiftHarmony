@@ -15,8 +15,8 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { useContext } from "react";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate, useLocation } from "react-router-dom";
-import { UserContext } from "../utils/UserContext";
 import axios from "axios";
+import { UserContext } from "../providers/UserProvider";
 
 const base_url = import.meta.env.VITE_API_URL;
 

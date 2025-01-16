@@ -4,7 +4,6 @@ const path = require("path");
 const cors = require("cors");
 require("dotenv").config();
 const corsOptions = require("./configuration/corsOptions");
-const bodyParser = require("body-parser");
 const { connect } = require("./app/middleware/db.js");
 const { logger } = require("./app/middleware/logEvents");
 const errorHandler = require("./app/middleware/errorHandler");
@@ -49,9 +48,15 @@ app.use("/register", require("./app/routes/register"));
 app.use("/auth", require("./app/routes/auth"));
 app.use('/refresh', require('./app/routes/refresh'));
 app.use('/logout', require('./app/routes/logout'));
+app.use("/joinWithoutUserId", require("./app/routes/roomRoutes/joinRoom.js"));
 
+//Private routes
 app.use(verifyJWT);
-// app.use("/employees", require("./routes/api/employees"));
+app.use("/createRoom", require("./app/routes/roomRoutes/createRoom.js"));
+app.use("/getRoom", require("./app/routes/roomRoutes/getRoom.js"));
+app.use("/joinWithUserId", require("./app/routes/roomRoutes/joinRoom.js"));
+app.use("/getParticipant", require("./app/routes/participantRoutes/getParticipant.js"));
+app.use("/test", require("./app/routes/test.js").router);
 
 app.all("*", (req, res) => {
   res.status(404);
