@@ -1,14 +1,20 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import Typography from "@mui/material/Typography";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import { IconButton, Box } from "@mui/material/";
+import {
+  IconButton,
+  Box,
+  Divider,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  TextField,
+  Typography,
+} from "@mui/material/";
 import sendgift from "../../assets/sendgift.svg";
-import { useState } from "react";
-import GiftForm from "./GiftForm";
+import { useContext, useEffect } from "react";
+import useJoinRoomForm from "../../hooks/useJoinRoomForm";
+import { LoadingButton } from "@mui/lab";
+import { UserContext } from "../../utils/UserContext";
 
 interface Props {
   open: boolean;
@@ -17,12 +23,30 @@ interface Props {
 
 const JoinRoomForm = (props: Props) => {
   const { open, onClose } = props;
-  const [openGift, setOpenGift] = useState<boolean>(false);
+  const { profile } = useContext(UserContext);
 
-  const handleJoinClick = () => {
-    setOpenGift(true); 
-    onClose(); 
-  };
+  const {
+    onSubmit,
+    register,
+    errors,
+    isSubmitting,
+    clearErrors,
+    setValue,
+    reset,
+    isSubmitSuccessful,
+  } = useJoinRoomForm();
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      onClose();
+      reset();
+    }
+  }, [isSubmitSuccessful, onClose, reset]);
+
+  useEffect(() => {
+    reset();
+    clearErrors();
+  }, [clearErrors, props.open, reset, setValue]);
 
   return (
     <>
@@ -35,7 +59,7 @@ const JoinRoomForm = (props: Props) => {
             backgroundColor: "#FFEDED",
             borderRadius: "16px",
             border: "5px solid #FFFFFF",
-            width: "350px",
+            width: "380px",
             maxWidth: "none",
           },
         }}
@@ -53,28 +77,165 @@ const JoinRoomForm = (props: Props) => {
             style={{ width: "15rem", height: "auto", objectFit: "cover" }}
           />
         </Box>
-
-        <DialogContent
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-          }}
-        >
-          <Typography> Room ID </Typography>
-          <TextField
-            required
-            id="message"
-            name="message"
-            label="Type your room ID"
-            fullWidth
-            variant="outlined"
-          />
-        </DialogContent>
+        <form id="join-room-form" onSubmit={onSubmit}>
+          <DialogContent
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 1,
+            }}
+          >
+            <Typography> Room ID </Typography>
+            <TextField
+              required
+              id="message"
+              label="Type your room ID"
+              fullWidth
+              variant="outlined"
+              autoComplete="off"
+              error={!!errors?.roomCode}
+              {...register("roomCode", {
+                required: {
+                  value: true,
+                  message: "Room's ID is required",
+                },
+                pattern: {
+                  value: /^[A-Z0-9]{1,4}$/,
+                  message:
+                    "Only uppercase letters and numbers are allowed, no spaces",
+                },
+              })}
+              helperText={errors?.roomCode?.message}
+              inputProps={{
+                maxLength: 4,
+                style: { textTransform: "uppercase" },
+              }}
+              onInput={(e) => {
+                const input = e.target as HTMLInputElement;
+                input.value = input.value.toUpperCase();
+                input.value = input.value.replace(/[^A-Z0-9]/g, "");
+              }}
+            />
+            <Divider>
+              <Chip label="Info" size="small" />
+            </Divider>
+            {profile ? (
+              <>
+                <Typography>Name : </Typography>
+                <TextField
+                  autoFocus
+                  required
+                  id="name"
+                  label="Type your name"
+                  fullWidth
+                  variant="outlined"
+                  autoComplete="off"
+                  defaultValue={profile.name}
+                  value={profile.name} 
+                  error={!!errors?.name}
+                  {...register("name", {
+                    required: {
+                      value: true,
+                      message: "Name is required",
+                    },
+                    pattern: {
+                      value: /\S/,
+                      message: "Invalid reason",
+                    },
+                  })}
+                  helperText={errors?.name?.message}
+                  inputProps={{
+                    maxLength: 20,
+                  }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <Typography>Name : </Typography>
+                <TextField
+                  autoFocus
+                  required
+                  id="name"
+                  label="Type your name"
+                  fullWidth
+                  variant="outlined"
+                  autoComplete="off"
+                  error={!!errors?.name}
+                  {...register("name", {
+                    required: {
+                      value: true,
+                      message: "Name is required",
+                    },
+                    pattern: {
+                      value: /\S/,
+                      message: "Invalid reason",
+                    },
+                  })}
+                  helperText={errors?.name?.message}
+                  inputProps={{
+                    maxLength: 20,
+                  }}
+                />
+              </>
+            )}
+            <Typography>In gift : </Typography>
+            <TextField
+              autoFocus
+              required
+              id="gift"
+              label="Type your gift"
+              fullWidth
+              variant="outlined"
+              autoComplete="off"
+              error={!!errors?.giftDescription}
+              {...register("giftDescription", {
+                required: {
+                  value: true,
+                  message: "Gift is required",
+                },
+                pattern: {
+                  value: /\S/,
+                  message: "Invalid reason",
+                },
+              })}
+              helperText={errors?.giftDescription?.message}
+              inputProps={{
+                maxLength: 4,
+              }}
+            />
+            <Typography>Message : </Typography>
+            <TextField
+              id="message"
+              label="Type your message"
+              fullWidth
+              variant="outlined"
+              multiline
+              rows={3}
+              autoComplete="off"
+              error={!!errors?.message}
+              {...register("message", {
+                pattern: {
+                  value: /\S/,
+                  message: "Invalid reason",
+                },
+              })}
+              helperText={errors?.message?.message}
+              inputProps={{
+                maxLength: 50,
+              }}
+            />
+          </DialogContent>
+        </form>
         <DialogActions sx={{ justifyContent: "center", mb: 2 }}>
-          <Button
+          <LoadingButton
+            loading={isSubmitting}
             type="submit"
-            onClick={handleJoinClick}
+            form="join-room-form"
+            variant="contained"
+            size="large"
             sx={{
               bgcolor: "button.main",
               color: "font.main",
@@ -82,10 +243,9 @@ const JoinRoomForm = (props: Props) => {
             }}
           >
             Join
-          </Button>
+          </LoadingButton>
         </DialogActions>
       </Dialog>
-      <GiftForm open={openGift} onClose={() => setOpenGift(false)} />
     </>
   );
 };

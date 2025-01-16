@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
-import { ICreateRoom } from "../interface/ICreateRoom";
 import { useContext } from "react";
 import { SnackbarContext } from "../providers/SnackbarProvide";
+import { IJoinRoom } from "../interface/IJoinRoom";
 import { RoomApi } from "../api/RoomApi";
 
-const useCreateRoomForm = () => {
+const useJoinRoomForm = () => {
   const { pushMessage } = useContext(SnackbarContext);
 
   const {
@@ -14,20 +14,23 @@ const useCreateRoomForm = () => {
     clearErrors,
     setValue,
     reset,
-  } = useForm<ICreateRoom>({
+  } = useForm<IJoinRoom>({
     defaultValues: {
+      roomCode: "",
       name: "",
+      giftDescription: "",
+      message: "",
     },
   });
 
-  const onFormValid = async (data: ICreateRoom) => {
-    await RoomApi.createRoom(data)
+  const onFormValid = async (data: IJoinRoom) => {
+    await RoomApi.joinRoom(data)
       .then(() => {
-        pushMessage("Create room successfully.", "success");
+        pushMessage("Join room successfully.", "success");
       })
       .catch((error) => {
         pushMessage(
-          "Failed to create room, response message: " + error.response.data,
+          "Failed to join room, response message: " + error.response.data,
           "error"
         );
         throw "fail";
@@ -48,4 +51,4 @@ const useCreateRoomForm = () => {
   };
 };
 
-export default useCreateRoomForm;
+export default useJoinRoomForm;

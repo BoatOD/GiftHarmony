@@ -139,16 +139,6 @@ const CreateRoomForm = (props: Props) => {
         </DialogContent>
       </form>
       <DialogActions sx={{ justifyContent: "center", mb: 2 }}>
-        {/* <Button
-          type="submit"
-          sx={{
-            bgcolor: "button.dark",
-            color: "font.main",
-            minWidth: "100px",
-          }}
-        >
-          Create
-        </Button> */}
         <LoadingButton
           loading={isSubmitting}
           type="submit"

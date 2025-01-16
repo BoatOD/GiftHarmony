@@ -6,7 +6,9 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert, { AlertColor } from "@mui/material/Alert";
 import { useMediaQuery, useTheme } from "@mui/material";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const SnackbarContext = createContext({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pushMessage: (_: string, __: AlertColor, ___?: React.ReactNode) => { },
 });
 
