@@ -55,6 +55,7 @@ app.use(verifyJWT);
 app.use("/createRoom", require("./app/routes/roomRoutes/createRoom.js"));
 app.use("/getRoom", require("./app/routes/roomRoutes/getRoom.js"));
 app.use("/joinWithUserId", require("./app/routes/roomRoutes/joinRoom.js"));
+app.use("/getParticipant", require("./app/routes/participantRoutes/getParticipant.js"));
 app.use("/test", require("./app/routes/test.js").router);
 
 app.all("*", (req, res) => {

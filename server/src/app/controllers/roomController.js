@@ -89,7 +89,9 @@ const joinRoom = async (req, res) => {
         .json({ message: "User has already joined this room." });
 
     await executeQuery(
-      "INSERT INTO Participants (RoomId, UserId, Name, PictureUrl, GiftDescription, Message, DateJoined, isActive) VALUES (@RoomId, @UserId, @Name, @PictureUrl, @GiftDescription, @Message, @DateJoined, @isActive)",
+      `INSERT INTO Participants 
+      (RoomId, UserId, Name, PictureUrl, GiftDescription, Message, DateJoined, isActive) 
+      VALUES (@RoomId, @UserId, @Name, @PictureUrl, @GiftDescription, @Message, @DateJoined, @isActive)`,
       [
         roomData.RoomId,
         userId,
@@ -125,7 +127,9 @@ const getRoom = async (req, res) => {
   if (!userId || userId < 1) return res.status(400).json({message: "Missing user id."});
   try {
     const foundRooms = await executeQuery(
-      "SELECT * FROM Rooms WHERE HostId = @UserId",
+      `SELECT *
+      FROM Rooms
+      WHERE HostId = @UserId`,
       [userId],
       ["UserId"],
       false
