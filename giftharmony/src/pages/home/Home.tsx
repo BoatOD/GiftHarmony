@@ -1,12 +1,12 @@
-import { Box, Typography, Paper, Grid2, Button } from "@mui/material";
+import { Box, Typography, Grid2, Button } from "@mui/material";
 import present from "../../assets/present.svg";
 import { useContext, useState } from "react";
 import GoogleLogin from "react-google-login";
 import GoogleIcon from "@mui/icons-material/Google";
-import CreateRoom from "../../component/CreateRoom";
 import SantaroomForm from "../../component/santaroom/SantaroomForm";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../providers/UserProvider";
+import CreateRoomForm from "../../component/CreateRoomForm";
 
 const Home = () => {
   const { profile, onSuccess, onFailure, clientId } = useContext(UserContext);
@@ -117,7 +117,7 @@ const Home = () => {
                   Join Room
                 </Button>
                 <Typography
-                  sx={{ textAlign: "center", fontSize: 16, color:"#6F6F6F" }}
+                  sx={{ textAlign: "center", fontSize: 16, color: "#6F6F6F" }}
                 >
                   Please sign in, for create room
                 </Typography>
@@ -152,36 +152,20 @@ const Home = () => {
           </Grid2>
 
           {/* Right Section */}
-          <Grid2 size={5}>
-            <Paper
-              elevation={3}
-              sx={{
-                width: "100%",
-                maxWidth: 300,
-                aspectRatio: "1 / 1",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "auto",
-                bgcolor: "#FFE3E6",
-                boxShadow: "none",
-              }}
-            >
+          <Grid2 size={4}>
               <img
                 src={present}
                 alt="present"
                 style={{
-                  maxWidth: "180%",
-                  height: "auto",
-                  objectFit: "contain",
+                  width: "110%", 
+                  height: "110%",
+                  objectFit: "cover",
                 }}
               />
-            </Paper>
           </Grid2>
         </Grid2>
       </Box>
-      <CreateRoom open={open} onClose={() => setOpen(false)} />
+      <CreateRoomForm open={open} onClose={() => setOpen(false)} />
       <SantaroomForm open={openJoin} onClose={() => setOpenJoin(false)} />
     </>
   );

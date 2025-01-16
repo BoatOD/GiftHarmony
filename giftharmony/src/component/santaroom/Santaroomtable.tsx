@@ -1,21 +1,23 @@
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import LoginIcon from "@mui/icons-material/Login";
 import { useState } from "react";
 import SantaroomAlert from "./SantaroomAlert";
-import { useNavigate } from "react-router-dom";
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
+import {
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tooltip,
+} from "@mui/material/";
+import TopicIcon from "@mui/icons-material/Topic";
 
 const SantaroomTable = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const navigate = useNavigate();
 
-  const columns = ["Room's name", "Host", "Member", "Action"];
+  const columns = ["Room's name", "Host", "Member", "Details"];
 
   return (
     <>
@@ -86,17 +88,9 @@ const SantaroomTable = () => {
                     textAlign: "center",
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    sx={{
-                      bgcolor: "button.main",
-                      color: "font.main",
-                      borderRadius: "10%",
-                    }}
-                    onClick={() => setOpen(true)}
-                  >
-                    Join
-                  </Button>
+                  <IconButton sx={{ bgcolor: "#E7B0B0" }}>
+                    <CardGiftcardIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -126,29 +120,16 @@ const SantaroomTable = () => {
                     textAlign: "center",
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    disabled
-                    sx={{
-                      bgcolor: "button.main",
-                      color: "font.main",
-                      borderRadius: "10%",
-                    }}
-                  >
-                    Join
-                  </Button>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      bgcolor: "button.dark",
-                      color: "font.main",
-                      borderRadius: "10%",
-                      ml: 2,
-                    }}
-                    onClick={() => navigate("joinroom")}
-                  >
-                    <LoginIcon />
-                  </Button>
+                  <Tooltip title="Your gift" arrow placement="top">
+                    <IconButton sx={{ bgcolor: "#E7B0B0", mr: 1 }}>
+                      <CardGiftcardIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Result" arrow placement="top">
+                    <IconButton sx={{ bgcolor: "#E1C9B3" }}>
+                      <TopicIcon />
+                    </IconButton>
+                  </Tooltip>
                 </TableCell>
               </TableRow>
             </TableBody>

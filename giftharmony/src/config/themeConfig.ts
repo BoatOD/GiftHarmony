@@ -93,7 +93,7 @@ export const DefaultTheme = (mode: PaletteMode) => ({
     button:{
       main: "#BE5050",
       light: "#C1B9B9",
-      dark: "#658767",
+      dark: "#9EC0A0",
     },
     alertbutton:{
       main: "#5873E0",

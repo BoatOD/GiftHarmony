@@ -1,10 +1,11 @@
-import { Box, Grid2, IconButton, Tooltip, Typography } from "@mui/material/";
+import { Box, Grid2, IconButton, Typography } from "@mui/material/";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
 import hatsanta from "../../assets/hatsanta.svg";
 import { useNavigate } from "react-router-dom";
 import SearchBox from "../../component/SearchBox";
-import SantaroomTable from "../../component/santaroom/Santaroomtable";
+import SantaroomTable from "../../component/santaroom/SantaroomTable";
+import SortBox from "../../component/SortBox";
+
 
 const SantaRoom = () => {
   const navigate = useNavigate();
@@ -67,11 +68,7 @@ const SantaRoom = () => {
         </Box>
         <Box>
           <SearchBox />
-          <Tooltip title="Sort Name for DSEC" arrow placement="top">
-            <IconButton sx={{ ml: 1 }}>
-              <SortByAlphaIcon />
-            </IconButton>
-          </Tooltip>
+          <SortBox/>
         </Box>
       </Grid2>
       <Grid2
