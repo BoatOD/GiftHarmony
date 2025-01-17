@@ -57,6 +57,7 @@ app.use("/getRoom", require("./app/routes/roomRoutes/getRoom.js"));
 app.use("/getJoinedRoom", require("./app/routes/roomRoutes/getJoinedRoom.js"));
 app.use("/joinWithUserId", require("./app/routes/roomRoutes/joinRoom.js"));
 app.use("/getParticipant", require("./app/routes/participantRoutes/getParticipant.js"));
+app.use("/exitRoom", require("./app/routes/roomRoutes/exitRoom.js"));
 app.use("/test", require("./app/routes/test.js"));
 
 app.all("*", (req, res) => {

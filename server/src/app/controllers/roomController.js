@@ -186,4 +186,42 @@ const getJoinedRoom = async (req, res) => {
   }
 };
 
-module.exports = { createRoom, joinRoom, getRoom, getJoinedRoom };
+const exitRoom = async (req, res) => {
+  const userId = req.userId;
+  if (!userId || userId < 1)
+    return res.status(400).json({ message: "Missing user id." });
+
+  const roomId = req.body.roomId;
+  if (!roomId || roomId < 1)
+    return res.status(400).json({ message: "Missing room id." });
+
+  try {
+    const foundParticipant = await executeQuery(
+      `SELECT *
+      FROM Participants
+      WHERE UserId = @UserId AND RoomId = @RoomId`,
+      [userId, roomId],
+      ["UserId", "RoomId"],
+      false
+    );
+
+    if (foundParticipant.recordset.length < 1)
+      return res.status(400).json({ message: "User didn't this room yet." });
+
+    await executeQuery(
+      `UPDATE Participants 
+      SET isActive = 0 
+      WHERE UserId = @UserId AND RoomId = @RoomId`,
+      [userId, roomId],
+      ["UserId", "RoomId"],
+      false
+    );
+
+    return res.status(200).json({ message: "Exit succeed." });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(error);
+  }
+};
+
+module.exports = { createRoom, joinRoom, getRoom, getJoinedRoom, exitRoom };
