@@ -9,7 +9,7 @@ import { useMediaQuery, useTheme } from "@mui/material";
 // eslint-disable-next-line react-refresh/only-export-components
 export const SnackbarContext = createContext({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  pushMessage: (_: string, __: AlertColor, ___?: React.ReactNode) => { },
+  pushMessage: (_: string, __: AlertColor, ___?: React.ReactNode) => {},
 });
 
 const SnackbarProvider = ({ children }: { children: React.ReactNode }) => {
@@ -19,9 +19,13 @@ const SnackbarProvider = ({ children }: { children: React.ReactNode }) => {
   const [userAction, setUserAction] = React.useState<React.ReactNode>();
 
   const theme = useTheme();
-  const isXs = useMediaQuery(theme.breakpoints.only('xs'));
+  const isXs = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const pushMessage = (message: string, severity: AlertColor, action?: React.ReactNode) => {
+  const pushMessage = (
+    message: string,
+    severity: AlertColor,
+    action?: React.ReactNode
+  ) => {
     setMessage(message);
     setSeverity(severity);
     setUserAction(action);
@@ -55,12 +59,19 @@ const SnackbarProvider = ({ children }: { children: React.ReactNode }) => {
     <SnackbarContext.Provider value={{ pushMessage }}>
       {children}
       <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: isXs ? "center" : "left" }}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: isXs ? "center" : "left",
+        }}
         open={open}
         autoHideDuration={6000}
         onClose={handleClose}
       >
-        <Alert severity={severity} action={extendAction(userAction)} sx={{width: isXs ? "100vw" : "unset"}}>
+        <Alert
+          severity={severity}
+          action={extendAction(userAction)}
+          sx={{ width: isXs ? "100vw" : "unset" }}
+        >
           {message}
         </Alert>
       </Snackbar>

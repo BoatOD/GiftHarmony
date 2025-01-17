@@ -93,8 +93,8 @@ const JoinRoomForm = (props: Props) => {
               fullWidth
               variant="outlined"
               autoComplete="off"
-              error={!!errors?.roomCode}
-              {...register("roomCode", {
+              error={!!errors?.code}
+              {...register("code", {
                 required: {
                   value: true,
                   message: "Room's ID is required",
@@ -105,7 +105,7 @@ const JoinRoomForm = (props: Props) => {
                     "Only uppercase letters and numbers are allowed, no spaces",
                 },
               })}
-              helperText={errors?.roomCode?.message}
+              helperText={errors?.code?.message}
               inputProps={{
                 maxLength: 4,
                 style: { textTransform: "uppercase" },
@@ -130,14 +130,9 @@ const JoinRoomForm = (props: Props) => {
                   fullWidth
                   variant="outlined"
                   autoComplete="off"
-                  defaultValue={profile.name}
                   value={profile.name} 
                   error={!!errors?.name}
                   {...register("name", {
-                    required: {
-                      value: true,
-                      message: "Name is required",
-                    },
                     pattern: {
                       value: /\S/,
                       message: "Invalid reason",
@@ -146,9 +141,6 @@ const JoinRoomForm = (props: Props) => {
                   helperText={errors?.name?.message}
                   inputProps={{
                     maxLength: 20,
-                  }}
-                  InputProps={{
-                    readOnly: true,
                   }}
                 />
               </>
@@ -203,7 +195,7 @@ const JoinRoomForm = (props: Props) => {
               })}
               helperText={errors?.giftDescription?.message}
               inputProps={{
-                maxLength: 4,
+                maxLength: 30,
               }}
             />
             <Typography>Message : </Typography>

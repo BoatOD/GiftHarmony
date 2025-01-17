@@ -3,9 +3,11 @@ import { useContext } from "react";
 import { SnackbarContext } from "../providers/SnackbarProvide";
 import { IJoinRoom } from "../interface/IJoinRoom";
 import { RoomApi } from "../api/RoomApi";
+import { UserContext } from "../utils/UserContext";
 
 const useJoinRoomForm = () => {
   const { pushMessage } = useContext(SnackbarContext);
+  const { profile } = useContext(UserContext);
 
   const {
     register,
@@ -16,7 +18,7 @@ const useJoinRoomForm = () => {
     reset,
   } = useForm<IJoinRoom>({
     defaultValues: {
-      roomCode: "",
+      code: "",
       name: "",
       giftDescription: "",
       message: "",
@@ -24,17 +26,18 @@ const useJoinRoomForm = () => {
   });
 
   const onFormValid = async (data: IJoinRoom) => {
-    await RoomApi.joinRoom(data)
-      .then(() => {
-        pushMessage("Join room successfully.", "success");
-      })
-      .catch((error) => {
-        pushMessage(
-          "Failed to join room, response message: " + error.response.data,
-          "error"
-        );
-        throw "fail";
-      });
+    if (profile) await RoomApi.joinWithUserId(data);
+    else await RoomApi.joinWithoutUserId(data)
+        .then(() => {
+          pushMessage("Join room successfully.", "success");
+        })
+        .catch((error) => {
+          pushMessage(
+            "Failed to join room, response message: " + error.response.data,
+            "error"
+          );
+          throw "fail";
+        });
   };
 
   const onSubmit = handleSubmit(onFormValid);

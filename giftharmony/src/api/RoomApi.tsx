@@ -19,8 +19,15 @@ export const RoomApi = {
     return response.data;
   },
 
-  joinRoom: async (data: IJoinRoom) => {
-    const response = await axios.post(`${base_url}/join`, data, {
+  joinWithUserId: async (data: IJoinRoom) => {
+    const response = await axios.post(`${base_url}/joinWithUserId`, data, {
+      withCredentials: true,
+    });
+    return response.data;
+  },
+
+  joinWithoutUserId: async (data: IJoinRoom) => {
+    const response = await axios.post(`${base_url}/joinWithoutUserId`, data, {
       withCredentials: true,
     });
     return response.data;
