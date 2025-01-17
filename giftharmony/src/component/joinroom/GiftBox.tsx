@@ -1,6 +1,6 @@
 import { Box } from "@mui/material/";
 import Typography from "@mui/material/Typography";
-import gift from "../../../assets/gift.svg";
+import gift from "../../assets/gift.svg";
 
 interface Props {
   name: string;

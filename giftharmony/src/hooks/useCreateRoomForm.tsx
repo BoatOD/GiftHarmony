@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { ICreateRoom } from "../interface/ICreateRoom";
 import { useContext } from "react";
 import { SnackbarContext } from "../providers/SnackbarProvide";
-import { CreateRoomApi } from "../api/CreateRoomApi";
+import { RoomApi } from "../api/RoomApi";
 
 const useCreateRoomForm = () => {
   const { pushMessage } = useContext(SnackbarContext);
@@ -21,11 +21,11 @@ const useCreateRoomForm = () => {
   });
 
   const onFormValid = async (data: ICreateRoom) => {
-    await CreateRoomApi.createRoom(data)
+    await RoomApi.createRoom(data)
       .then(() => {
         pushMessage("Create room successfully.", "success");
       })
-      .catch((error: { response: { data: string } }) => {
+      .catch((error) => {
         pushMessage(
           "Failed to create room, response message: " + error.response.data,
           "error"

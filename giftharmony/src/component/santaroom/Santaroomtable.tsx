@@ -1,8 +1,6 @@
 import { useState } from "react";
 import SantaroomAlert from "./SantaroomAlert";
-import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import {
-  IconButton,
   Paper,
   Table,
   TableBody,
@@ -10,9 +8,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip,
 } from "@mui/material/";
-import TopicIcon from "@mui/icons-material/Topic";
+import GiftPopover from "./GiftPopover";
+import ResultPopover from "./ResultPopover";
 
 const SantaroomTable = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -43,24 +41,6 @@ const SantaroomTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })} */}
               <TableRow>
                 <TableCell
                   sx={{
@@ -88,9 +68,7 @@ const SantaroomTable = () => {
                     textAlign: "center",
                   }}
                 >
-                  <IconButton sx={{ bgcolor: "#E7B0B0" }}>
-                    <CardGiftcardIcon />
-                  </IconButton>
+                  <GiftPopover />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -118,18 +96,14 @@ const SantaroomTable = () => {
                 <TableCell
                   sx={{
                     textAlign: "center",
+                    display: "flex", 
+                    justifyContent: "center", 
+                    alignItems: "center", 
+                    gap: 1, 
                   }}
                 >
-                  <Tooltip title="Your gift" arrow placement="top">
-                    <IconButton sx={{ bgcolor: "#E7B0B0", mr: 1 }}>
-                      <CardGiftcardIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Result" arrow placement="top">
-                    <IconButton sx={{ bgcolor: "#E1C9B3" }}>
-                      <TopicIcon />
-                    </IconButton>
-                  </Tooltip>
+                  <GiftPopover />
+                  <ResultPopover/>
                 </TableCell>
               </TableRow>
             </TableBody>
