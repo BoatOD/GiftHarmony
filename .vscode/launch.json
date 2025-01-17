@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "name": "nodemon",
+            "program": "${workspaceFolder}/server/src/server.js",
+            "request": "launch",
+            "restart": true,
+            "runtimeExecutable": "nodemon",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "env": {
+                "ACCESS_TOKEN_SECRET": "09772d67a3ee16b8e726b29109f73b19a785e1f3b93f73b92c94c602bd60d73c06e90d93c1a1f233986d3a6c1efb2e62a557347a857de7771b26304938de5515",
+                "REFRESH_TOKEN_SECRET": "2283c212060da316852b852d5ea29d5f9cbcd57801db9a31ae5c6ebbfedca54af7ee6c3a061ecfa90cd7477b15a079b1aa9eece8969029b06ee124a010622781",
+                "GOOGLE_SECRET": "810479308587-c60mrh8928o0sedb3dvimijp93i7sis0.apps.googleusercontent.com",
+                "CONNECTION_STRING": "Server=tcp:tainingmycos.database.windows.net,1433;Initial Catalog=GiftHarmony;Persist Security Info=False;User ID=tainingmycos;Password=Saorazaboat0089;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+                "NODE_ENV": "development"
+            }
+        },
+    ]
+}

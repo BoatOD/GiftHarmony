@@ -50,6 +50,7 @@ const handleLogin = async (req, res) => {
     // create JWTs
     const accessToken = jwt.sign(
       {
+        UserId: userData.UserId,
         FirstName: userData.FirstName,
         LastName: userData.LastName,
         Email: userData.Email,
@@ -59,6 +60,7 @@ const handleLogin = async (req, res) => {
     );
     const refreshToken = jwt.sign(
       {
+        UserId: userData.UserId,
         FirstName: userData.FirstName,
         LastName: userData.LastName,
         Email: userData.Email,

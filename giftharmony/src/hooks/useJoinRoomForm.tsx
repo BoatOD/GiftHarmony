@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { SnackbarContext } from "../providers/SnackbarProvide";
 import { IJoinRoom } from "../interface/IJoinRoom";
 import { RoomApi } from "../api/RoomApi";
-import { UserContext } from "../utils/UserContext";
+import { UserContext } from "../providers/UserProvider";
 
 const useJoinRoomForm = () => {
   const { pushMessage } = useContext(SnackbarContext);

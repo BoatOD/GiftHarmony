@@ -8,10 +8,11 @@ import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import { UserContext } from "../utils/UserContext";
 import { useContext, useEffect } from "react";
 import chirstmasVeed from "../assets/chirstmasveed.svg";
 import useCreateRoomForm from "../hooks/useCreateRoomForm";
+import { UserContext } from "../providers/UserProvider";
+
 interface Props {
   open: boolean;
   onClose: () => void;

@@ -3,7 +3,7 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import TopicIcon from "@mui/icons-material/Topic";
 import { Box, IconButton, Tooltip } from "@mui/material/";
-import { UserContext } from "../../utils/UserContext";
+import { UserContext } from "../../providers/UserProvider";
 
 const ResultPopover = () => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(

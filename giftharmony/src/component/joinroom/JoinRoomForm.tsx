@@ -14,7 +14,7 @@ import sendgift from "../../assets/sendgift.svg";
 import { useContext, useEffect } from "react";
 import useJoinRoomForm from "../../hooks/useJoinRoomForm";
 import { LoadingButton } from "@mui/lab";
-import { UserContext } from "../../utils/UserContext";
+import { UserContext } from "../../providers/UserProvider";
 
 interface Props {
   open: boolean;
