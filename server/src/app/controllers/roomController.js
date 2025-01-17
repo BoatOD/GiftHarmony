@@ -115,7 +115,7 @@ const joinRoom = async (req, res) => {
       false
     );
 
-    return res.status(200).json({message: "Join succeed."})
+    return res.status(200).json({ message: "Join succeed." });
   } catch (error) {
     console.error(error);
     return res.status(500).send(error);
@@ -124,7 +124,8 @@ const joinRoom = async (req, res) => {
 
 const getRoom = async (req, res) => {
   const userId = req.userId;
-  if (!userId || userId < 1) return res.status(400).json({message: "Missing user id."});
+  if (!userId || userId < 1)
+    return res.status(400).json({ message: "Missing user id." });
   try {
     const foundRooms = await executeQuery(
       `SELECT *
@@ -139,6 +140,50 @@ const getRoom = async (req, res) => {
     console.error(error);
     return res.status(500).send(error);
   }
-}
+};
 
-module.exports = { createRoom, joinRoom, getRoom };
+const getJoinedRoom = async (req, res) => {
+  const userId = req.userId;
+  if (!userId || userId < 1)
+    return res.status(400).json({ message: "Missing user id." });
+  try {
+    const foundRooms = await executeQuery(
+      `SELECT r.RoomId, HostId, r.Name as RoomName, Code, DateCreated, r.isActive as isRoomActive, 
+              ParticipantId, p.Name as ParticipantName, PictureUrl, GiftDescription, Message, DateJoined
+      FROM Rooms as r
+      JOIN Participants as p ON p.UserId = @UserId
+      WHERE p.RoomId = r.RoomId`,
+      [userId],
+      ["UserId"],
+      false
+    );
+
+    const rooms = foundRooms.recordset.map((record) => {
+      const participantData = {
+        ParticipantId: record.ParticipantId,
+        Name: record.ParticipantName,
+        PictureUrl: record.PictureUrl,
+        GiftDescription: record.GiftDescription,
+        Message: record.Message,
+        DateJoined: record.DateJoined,
+      };
+      const {
+        ParticipantId,
+        ParticipantName,
+        PictureUrl,
+        GiftDescription,
+        Message,
+        DateJoined,
+        ...roomData
+      } = record;
+      return { ...roomData, participantData };
+    });
+
+    return res.status(200).json(rooms);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(error);
+  }
+};
+
+module.exports = { createRoom, joinRoom, getRoom, getJoinedRoom };
