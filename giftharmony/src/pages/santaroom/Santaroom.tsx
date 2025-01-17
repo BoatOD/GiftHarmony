@@ -3,13 +3,16 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import hatsanta from "../../assets/hatsanta.svg";
 import { useNavigate } from "react-router-dom";
 import SearchBox from "../../component/SearchBox";
-import SortBox from "../../component/SortBox";
 import SantaRoomTable from "../../component/santaroom/SantaroomTable";
-
+import { useState } from "react";
 
 const SantaRoom = () => {
   const navigate = useNavigate();
+  const [search, setSearch] = useState<string>("");
 
+  const handleSearch = (query: string) => {
+    setSearch(query);
+  };
   return (
     <Box sx={{ flexGrow: 1, pt: 5, px: 15 }}>
       <Grid2
@@ -67,8 +70,8 @@ const SantaRoom = () => {
           />
         </Box>
         <Box>
-          <SearchBox />
-          <SortBox/>
+          <SearchBox onSearch={handleSearch}/>
+          {/* <SortBox /> */}
         </Box>
       </Grid2>
       <Grid2
@@ -81,7 +84,7 @@ const SantaRoom = () => {
         }}
       >
         <Grid2 size={12}>
-          <SantaRoomTable />
+          <SantaRoomTable search={search} />
         </Grid2>
       </Grid2>
     </Box>

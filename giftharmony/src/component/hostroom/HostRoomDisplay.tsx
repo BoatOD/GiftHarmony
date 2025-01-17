@@ -5,7 +5,12 @@ import { useCallback, useEffect, useState } from "react";
 import { IGetRoom } from "../../interface/IGetRoom";
 import { RoomApi } from "../../api/RoomApi";
 
-const HostRoomDiaplay = () => {
+interface Props {
+  search: string;
+}
+
+const HostRoomDiaplay = (props: Props) => {
+  const { search } = props;
   const [room, setRoom] = useState<IGetRoom[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -22,13 +27,12 @@ const HostRoomDiaplay = () => {
 
   return (
     <Grid2 container spacing={10} alignItems="stretch">
-
       <Grid2 size={3} display="flex" justifyContent="center">
-        <ChristmasTree/>
+        <ChristmasTree />
       </Grid2>
 
       <Grid2 size={9}>
-        <HostRoomTable room={room}  loading={loading}/>
+        <HostRoomTable room={room} loading={loading} search={search} />
       </Grid2>
     </Grid2>
   );

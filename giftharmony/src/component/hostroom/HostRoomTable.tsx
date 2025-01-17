@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   Paper,
+  Skeleton,
   Table,
   TableCell,
   TableContainer,
@@ -16,10 +17,11 @@ import React from "react";
 interface Props {
   room: IGetRoom[];
   loading: boolean;
+  search: string;
 }
 
 const HostRoomTable = (props: Props) => {
-  const { room, loading } = props;
+  const { room, loading, search } = props;
   const [open, setOpen] = useState<boolean>(false);
 
   const [page, setPage] = React.useState(0);
@@ -37,6 +39,10 @@ const HostRoomTable = (props: Props) => {
   };
 
   const columns = ["Room’s name", "Room’s code", "Action"];
+
+  const filteredRoom = room.filter((room) =>
+    room.Name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <>
@@ -62,9 +68,17 @@ const HostRoomTable = (props: Props) => {
               </TableRow>
             </TableHead>
             {loading ? (
-              <>loading</>
+              Array.from(new Array(5)).map((_, index) => (
+                <TableRow key={index}>
+                  {Array.from(new Array(3)).map((_, idx) => (
+                    <TableCell key={idx}>
+                      <Skeleton height={40} />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
             ) : (
-              room
+              filteredRoom
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((room, index) => {
                   return <HostRoomTableRow room={room} key={index} />;
@@ -75,7 +89,7 @@ const HostRoomTable = (props: Props) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 20]}
           component="div"
-          count={room.length}
+          count={filteredRoom.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

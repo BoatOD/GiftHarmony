@@ -20,7 +20,6 @@ const JoinRoomDisplayData = (props: Props) => {
     setLoading(false);
   }, [room.RoomId]);
   
-
   useEffect(() => {
     getJoinRoom();
   }, [getJoinRoom]);

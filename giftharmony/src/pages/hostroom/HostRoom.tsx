@@ -5,10 +5,17 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import hatsanta from "../../assets/hatsanta.svg";
 import { useNavigate } from "react-router-dom";
 import HostRoomDiaplay from "../../component/hostroom/HostRoomDisplay";
-import SortBox from "../../component/SortBox";
+import { useState } from "react";
 
 const HostRoom = () => {
   const navigate = useNavigate();
+  const [search, setSearch] = useState<string>("");
+
+
+  const handleSearch = (query: string) => {
+    setSearch(query);
+  };
+
   return (
     <>
       <Box sx={{ flexGrow: 1, pt: 5, px: 15 }}>
@@ -67,8 +74,8 @@ const HostRoom = () => {
             />
           </Box>
           <Box>
-            <SearchBox />
-            <SortBox/>
+            <SearchBox onSearch={handleSearch} />
+            {/* <SortBox onSortChange={handleSortChange}/> */}
           </Box>
         </Grid2>
         <Grid2
@@ -81,7 +88,7 @@ const HostRoom = () => {
           }}
         >
           <Grid2 size={12}>
-            <HostRoomDiaplay />
+            <HostRoomDiaplay search={search} />
           </Grid2>
         </Grid2>
       </Box>

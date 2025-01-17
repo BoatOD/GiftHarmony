@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   Paper,
+  Skeleton,
   Table,
   TableCell,
   TableContainer,
@@ -14,7 +15,12 @@ import SantaRoomTableRow from "./SantaRoomTableRow";
 import SantaroomAlert from "./SantaroomAlert";
 import React from "react";
 
-const SantaRoomTable = () => {
+interface Props {
+  search: string;
+}
+
+const SantaRoomTable = (props: Props) => {
+  const { search } = props;
   const [open, setOpen] = useState<boolean>(false);
 
   const columns = ["Room's name", "Details"];
@@ -46,6 +52,10 @@ const SantaRoomTable = () => {
     getJoinSantaRoom();
   }, [getJoinSantaRoom]);
 
+  const filteredParticipants = participants.filter((participant) =>
+    participant.RoomName.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -69,23 +79,32 @@ const SantaRoomTable = () => {
                 ))}
               </TableRow>
             </TableHead>
-            {loading ? (
-              <>loading</>
-            ) : (
-              participants
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((participant, index) => {
-                  return (
-                    <SantaRoomTableRow participant={participant} key={index} />
-                  );
-                })
-            )}
+            {loading
+              ? Array.from(new Array(5)).map((_, index) => (
+                  <TableRow key={index}>
+                    {Array.from(new Array(2)).map((_, idx) => (
+                      <TableCell key={idx}>
+                        <Skeleton height={40} />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              : filteredParticipants
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((participant, index) => {
+                    return (
+                      <SantaRoomTableRow
+                        participant={participant}
+                        key={index}
+                      />
+                    );
+                  })}
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 20]}
           component="div"
-          count={participants.length}
+          count={filteredParticipants.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

@@ -28,7 +28,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const SearchBox = () => {
+const SearchBox = ({ onSearch }: { onSearch: (query: string) => void }) => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
   const inputRef = useRef<HTMLDivElement>(null);
@@ -37,7 +37,9 @@ const SearchBox = () => {
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchText(event.target.value);
+    const value = event.target.value;
+    setSearchText(value);
+    onSearch(value); 
   };
 
   const handleFocus = () => {
@@ -52,6 +54,7 @@ const SearchBox = () => {
 
   const handleClearSearch = () => {
     setSearchText("");
+    onSearch("");
   };
 
   useEffect(() => {
@@ -96,12 +99,12 @@ const SearchBox = () => {
           onClick={handleClearSearch}
           sx={{
             position: "absolute",
-            right: 15,
-            padding: "0 10px",
+            right: 22,
+            padding: "0 12px",
             color: "#B0B0B0",
           }}
         >
-          <ClearIcon sx={{ fontSize: 20 }} />
+          <ClearIcon sx={{ fontSize: 18 }} />
         </IconButton>
       )}
     </IconButton>
