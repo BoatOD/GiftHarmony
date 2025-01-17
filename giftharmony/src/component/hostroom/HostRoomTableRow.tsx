@@ -8,8 +8,9 @@ interface Props {
 }
 
 const HostRoomTableRow = (props: Props) => {
-  const { room } = props;
+  const { room: roomFromProps } = props; 
   const navigate = useNavigate();
+
   return (
     <TableBody>
       <TableRow>
@@ -18,7 +19,14 @@ const HostRoomTableRow = (props: Props) => {
             textAlign: "center",
           }}
         >
-          {room?.name}
+          {roomFromProps?.Name}
+        </TableCell>
+        <TableCell
+          sx={{
+            textAlign: "center",
+          }}
+        >
+          {roomFromProps?.Code}
         </TableCell>
         <TableCell
           sx={{
@@ -29,7 +37,7 @@ const HostRoomTableRow = (props: Props) => {
             sx={{
               bgcolor: "button.dark",
             }}
-            onClick={() => navigate("joinroom")}
+            onClick={() => navigate("joinroom", { state: { room: roomFromProps } })}
           >
             <LoginIcon />
           </IconButton>

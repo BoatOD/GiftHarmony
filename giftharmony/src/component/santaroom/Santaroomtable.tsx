@@ -5,12 +5,14 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
 } from "@mui/material/";
 import { IRoom } from "../../interface/IJoinRoom";
 import { RoomApi } from "../../api/RoomApi";
 import SantaRoomTableRow from "./SantaRoomTableRow";
 import SantaroomAlert from "./SantaroomAlert";
+import React from "react";
 
 const SantaRoomTable = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -19,6 +21,19 @@ const SantaRoomTable = () => {
 
   const [participants, setParticipants] = useState<IRoom[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (_event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   const getJoinSantaRoom = useCallback(async () => {
     setLoading(true);
@@ -57,12 +72,25 @@ const SantaRoomTable = () => {
             {loading ? (
               <>loading</>
             ) : (
-              participants.map((participant, index) => (
-                <SantaRoomTableRow participant={participant} key={index} />
-              ))
+              participants
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((participant, index) => {
+                  return (
+                    <SantaRoomTableRow participant={participant} key={index} />
+                  );
+                })
             )}
           </Table>
         </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 20]}
+          component="div"
+          count={participants.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Paper>
       <SantaroomAlert open={open} onClose={() => setOpen(false)} />
     </>
@@ -70,4 +98,3 @@ const SantaRoomTable = () => {
 };
 
 export default SantaRoomTable;
-

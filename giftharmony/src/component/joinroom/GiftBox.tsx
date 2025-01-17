@@ -1,49 +1,52 @@
-import { Box } from "@mui/material/";
+import { Box, Grid2 } from "@mui/material/";
 import Typography from "@mui/material/Typography";
 import gift from "../../assets/gift.svg";
+import { IParticipant } from "../../interface/IGetRoom";
 
 interface Props {
-  name: string;
+  participant: IParticipant;
 }
 
 const GiftBox = (props: Props) => {
-  const { name } = props;
+  const { participant } = props;
   return (
-    <Box
-      sx={{
-        position: "relative",
-        display: "inline-block",
-        width: "260px",
-        height: "auto",
-      }}
-    >
-      <img
-        src={gift}
-        alt="gift"
-        style={{
-          width: "100%",
-          height: "auto",
-          display: "block",
-        }}
-      />
-      <Typography
+    <Grid2>
+      <Box
         sx={{
-          position: "absolute",
-          top: "80%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          backgroundColor: "#8C5959",
-          color: "#F3F3F3",
-          padding: "4px 25px",
-          borderRadius: "4px",
-          fontSize: "14px",
-          fontWeight: "bold",
-          textAlign: "center",
+          position: "relative",
+          width: "240px",
+          height: "auto",
+          margin: "auto",
         }}
       >
-        {name}
-      </Typography>
-    </Box>
+        <img
+          src={gift}
+          alt="gift"
+          style={{
+            width: "100%",
+            height: "auto",
+            display: "block",
+          }}
+        />
+        <Typography
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "#8C5959",
+            color: "#F3F3F3",
+            padding: "4px 25px",
+            borderRadius: "4px",
+            fontSize: "14px",
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          {participant.Name}
+        </Typography>
+      </Box>
+    </Grid2>
   );
 };
 

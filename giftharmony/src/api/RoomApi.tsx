@@ -34,10 +34,13 @@ export const RoomApi = {
   },
 
   getParticipant: async (roomId: number) => {
-    const response = await axios.get<IParticipant[]>(`${base_url}/getParticipant`, {
-      params: { roomId },
-      withCredentials: true,
-    });
+    const response = await axios.post<IParticipant[]>(
+      `${base_url}/getParticipant`, 
+      { roomId : roomId }, 
+      {
+        withCredentials: true, 
+      }
+    );
     return response.data;
   },
 
@@ -47,5 +50,4 @@ export const RoomApi = {
     });
     return response.data;
   },
-  
 };
