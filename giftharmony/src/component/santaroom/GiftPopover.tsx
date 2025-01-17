@@ -4,8 +4,13 @@ import Typography from "@mui/material/Typography";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import { IconButton, Tooltip, Box } from "@mui/material/";
 import gift from "../../assets/gift.svg";
+import { IRoom } from "../../interface/IJoinRoom";
 
-const GiftPopover = () => {
+interface Props {
+  participant: IRoom;
+}
+const GiftPopover = (props: Props) => {
+  const { participant } = props;
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -55,11 +60,19 @@ const GiftPopover = () => {
               width: "120px",
               height: "120px",
               objectFit: "contain",
-              maxWidth: "100%", 
+              maxWidth: "100%",
             }}
           />
-          <Typography>In Gift:</Typography>
-          <Typography>Messages:</Typography>
+          <Typography>
+            In Gift: {participant.participantData.GiftDescription}{" "}
+          </Typography>
+          {participant.participantData.Message === "" ? (
+            <></>
+          ) : (
+            <Typography>
+              Messages: {participant.participantData.Message}{" "}
+            </Typography>
+          )}
         </Box>
       </Popover>
     </div>

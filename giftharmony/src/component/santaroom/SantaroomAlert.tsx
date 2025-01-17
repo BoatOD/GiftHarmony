@@ -12,7 +12,7 @@ export interface Props {
   onClose: () => void;
 }
 
-const SantaroomAlert = (props: Props) => {
+const SantaRoomAlert = (props: Props) => {
   const { open, onClose } = props;
   const [openPopup , setOpenPopup] = useState<boolean>(false);
 
@@ -93,4 +93,5 @@ const SantaroomAlert = (props: Props) => {
   );
 };
 
-export default SantaroomAlert;
+export default SantaRoomAlert;
+

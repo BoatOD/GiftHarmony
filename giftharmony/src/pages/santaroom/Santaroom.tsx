@@ -3,8 +3,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import hatsanta from "../../assets/hatsanta.svg";
 import { useNavigate } from "react-router-dom";
 import SearchBox from "../../component/SearchBox";
-import SantaroomTable from "../../component/santaroom/SantaroomTable";
 import SortBox from "../../component/SortBox";
+import SantaRoomTable from "../../component/santaroom/SantaroomTable";
 
 
 const SantaRoom = () => {
@@ -81,7 +81,7 @@ const SantaRoom = () => {
         }}
       >
         <Grid2 size={12}>
-          <SantaroomTable />
+          <SantaRoomTable />
         </Grid2>
       </Grid2>
     </Box>

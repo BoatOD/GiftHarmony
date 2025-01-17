@@ -1,12 +1,12 @@
 import axios from "axios";
 import { ICreateRoom } from "../interface/ICreateRoom";
-import {IJoinRoom } from "../interface/IJoinRoom";
-import { IGetRoom } from "../interface/IGetRoom";
+import { IJoinRoom, IRoom } from "../interface/IJoinRoom";
+import { IGetRoom, IParticipant } from "../interface/IGetRoom";
 const base_url = import.meta.env.VITE_API_URL;
 
 export const RoomApi = {
-  getRoom: async (): Promise<IGetRoom> => {
-    const response = await axios.get<IGetRoom>(`${base_url}/getRoom`, {
+  getRoom: async () => {
+    const response = await axios.get<IGetRoom[]>(`${base_url}/getRoom`, {
       withCredentials: true,
     });
     return response.data;
@@ -32,4 +32,20 @@ export const RoomApi = {
     });
     return response.data;
   },
+
+  getParticipant: async (roomId: number) => {
+    const response = await axios.get<IParticipant[]>(`${base_url}/getParticipant`, {
+      params: { roomId },
+      withCredentials: true,
+    });
+    return response.data;
+  },
+
+  getJoinRoom: async () => {
+    const response = await axios.get<IRoom[]>(`${base_url}/getJoinedRoom`, {
+      withCredentials: true,
+    });
+    return response.data;
+  },
+  
 };

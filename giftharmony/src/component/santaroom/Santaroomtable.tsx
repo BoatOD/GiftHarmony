@@ -1,21 +1,35 @@
-import { useState } from "react";
-import SantaroomAlert from "./SantaroomAlert";
+import { useCallback, useEffect, useState } from "react";
 import {
   Paper,
   Table,
-  TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
 } from "@mui/material/";
-import GiftPopover from "./GiftPopover";
-import ResultPopover from "./ResultPopover";
+import { IRoom } from "../../interface/IJoinRoom";
+import { RoomApi } from "../../api/RoomApi";
+import SantaRoomTableRow from "./SantaRoomTableRow";
+import SantaroomAlert from "./SantaroomAlert";
 
-const SantaroomTable = () => {
+const SantaRoomTable = () => {
   const [open, setOpen] = useState<boolean>(false);
 
-  const columns = ["Room's name", "Host", "Member", "Details"];
+  const columns = ["Room's name", "Details"];
+
+  const [participants, setParticipants] = useState<IRoom[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const getJoinSantaRoom = useCallback(async () => {
+    setLoading(true);
+    const response = await RoomApi.getJoinRoom();
+    setParticipants(response);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    getJoinSantaRoom();
+  }, [getJoinSantaRoom]);
 
   return (
     <>
@@ -40,73 +54,13 @@ const SantaroomTable = () => {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    textAlign: "center",
-                  }}
-                >
-                  แลกของขวัญกันๆ
-                </TableCell>
-                <TableCell
-                  sx={{
-                    textAlign: "center",
-                  }}
-                >
-                  นีน คนสวยมาก
-                </TableCell>
-                <TableCell
-                  sx={{
-                    textAlign: "center",
-                  }}
-                >
-                  2 / 10
-                </TableCell>
-                <TableCell
-                  sx={{
-                    textAlign: "center",
-                  }}
-                >
-                  <GiftPopover />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    textAlign: "center",
-                  }}
-                >
-                  แลกของขวัญกันๆ
-                </TableCell>
-                <TableCell
-                  sx={{
-                    textAlign: "center",
-                  }}
-                >
-                  นีน คนสวยมาก
-                </TableCell>
-                <TableCell
-                  sx={{
-                    textAlign: "center",
-                  }}
-                >
-                  2 / 10
-                </TableCell>
-                <TableCell
-                  sx={{
-                    textAlign: "center",
-                    display: "flex", 
-                    justifyContent: "center", 
-                    alignItems: "center", 
-                    gap: 1, 
-                  }}
-                >
-                  <GiftPopover />
-                  <ResultPopover/>
-                </TableCell>
-              </TableRow>
-            </TableBody>
+            {loading ? (
+              <>loading</>
+            ) : (
+              participants.map((participant, index) => (
+                <SantaRoomTableRow participant={participant} key={index} />
+              ))
+            )}
           </Table>
         </TableContainer>
       </Paper>
@@ -115,4 +69,5 @@ const SantaroomTable = () => {
   );
 };
 
-export default SantaroomTable;
+export default SantaRoomTable;
+
