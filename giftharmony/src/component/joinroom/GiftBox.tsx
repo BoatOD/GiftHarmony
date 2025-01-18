@@ -9,6 +9,7 @@ interface Props {
 
 const GiftBox = (props: Props) => {
   const { participant } = props;
+  
   return (
     <Grid2>
       <Box

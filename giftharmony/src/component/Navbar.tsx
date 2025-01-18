@@ -35,7 +35,7 @@ function ResponsiveAppBar() {
   const pages = [
     { pageName: "Home", path: "" },
     ...(profile ? [{ pageName: "Santa's Room", path: "santaroom" }] : []),
-    { pageName: "Host Room", path: "hostroom" },
+    ...(profile ? [{ pageName: "Host Room", path: "hostroom" }] : []),
   ];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -206,7 +206,7 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <Button
+                  {/* <Button
                     sx={{
                       bgcolor: "#FDFDFD",
                       color: "#9D7373",
@@ -216,7 +216,7 @@ function ResponsiveAppBar() {
                     }}
                   >
                     Profile
-                  </Button>
+                  </Button> */}
                   <GoogleLogout
                     clientId={clientId}
                     onLogoutSuccess={() => {
@@ -230,7 +230,6 @@ function ResponsiveAppBar() {
                           color: "#9D7373",
                           fontWeight: 600,
                           px: 3,
-                          mb: 1,
                         }}
                         onClick={() => handleLogout(renderProps)}
                         disabled={renderProps.disabled}

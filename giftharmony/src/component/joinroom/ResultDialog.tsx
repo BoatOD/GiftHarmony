@@ -2,7 +2,7 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { Box, Dialog, DialogContent, IconButton, Typography } from "@mui/material/";
 import { useState, useEffect } from "react";
 import ConnectorLine from "./ConnectorLine";
-import GiftBox from "./GiftBox";
+// import GiftBox from "./GiftBox";
 
 interface Props {
   open: boolean;
@@ -83,7 +83,7 @@ const ResultDialog = (props: Props) => {
               sx={{ position: "relative" }}
               id={`box-${box.id}`}
             >
-              <GiftBox name={box.name} />
+              {/* <GiftBox participant={box.name} /> */}
             </Box>
           ))}
           {connections.map(({ boxAId, boxBId }, index) => (

@@ -10,11 +10,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useLocation, useNavigate } from "react-router-dom";
 import santa from "../../assets/santa.svg";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
-import JoinRoomAlert from "../../component/joinroom/JoinRoomAlert";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
 import ResultDialog from "../../component/joinroom/ResultDialog";
 import JoinRoomDisplayData from "../../component/joinroom/JoinRoomDisplayData";
+import JoinRoomSpinWheel from "../../component/joinroom/JoinRoomSpinWheel";
 
 const JoinRoom = () => {
   const navigate = useNavigate();
@@ -99,7 +99,7 @@ const JoinRoom = () => {
 
         <JoinRoomDisplayData  room={room}/>
       </Box>
-      <JoinRoomAlert open={open} onClose={() => setOpen(false)} />
+      <JoinRoomSpinWheel open={open} onClose={() => setOpen(false)} room={room}/>
       <ResultDialog open={openResult} onClose={() => setOpenResult(false)} />
     </>
   );

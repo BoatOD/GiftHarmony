@@ -24,6 +24,7 @@ const JoinRoomDisplayData = (props: Props) => {
     getJoinRoom();
   }, [getJoinRoom]);
 
+
   return (
     <Grid2
       container
@@ -47,7 +48,7 @@ const JoinRoomDisplayData = (props: Props) => {
         {loading ? (
           <>loading</>
         ) : (
-          participants.map((participant, index) => (
+          participants.map((participant : IParticipant, index : number) => (
             <GiftBox key={index} participant={participant} />
           ))
         )}
