@@ -1,7 +1,7 @@
 import {
   Avatar,
   Box,
-  Button,
+  // Button,
   Grid2,
   IconButton,
   Typography,
@@ -9,16 +9,13 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useLocation, useNavigate } from "react-router-dom";
 import santa from "../../assets/santa.svg";
-import ShuffleIcon from "@mui/icons-material/Shuffle";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+// import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
 import ResultDialog from "../../component/joinroom/ResultDialog";
 import JoinRoomDisplayData from "../../component/joinroom/JoinRoomDisplayData";
-import JoinRoomSpinWheel from "../../component/joinroom/JoinRoomSpinWheel";
 
 const JoinRoom = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState<boolean>(false);
   const [openResult, setOpenResult] = useState<boolean>(false);
   const location = useLocation();
 
@@ -81,25 +78,17 @@ const JoinRoom = () => {
             mt: 3,
           }}
         >
-          <Button
+          {/* <Button
             variant="contained"
             sx={{ borderRadius: "20", bgcolor: "#62723F", mr: 2 }}
             onClick={() => setOpenResult(true)}
           >
             <VisibilityIcon sx={{ mr: 1 }} /> View Result
-          </Button>
-          <Button
-            variant="contained"
-            sx={{ borderRadius: "20", bgcolor: "#8D4646" }}
-            onClick={() => setOpen(true)}
-          >
-            <ShuffleIcon sx={{ mr: 1 }} /> Shuffle
-          </Button>
+          </Button> */}
         </Grid2>
 
         <JoinRoomDisplayData  room={room}/>
       </Box>
-      <JoinRoomSpinWheel open={open} onClose={() => setOpen(false)} room={room}/>
       <ResultDialog open={openResult} onClose={() => setOpenResult(false)} />
     </>
   );

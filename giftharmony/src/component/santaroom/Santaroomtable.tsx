@@ -8,11 +8,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Typography,
 } from "@mui/material/";
 import { IRoom } from "../../interface/IJoinRoom";
 import { RoomApi } from "../../api/RoomApi";
 import SantaRoomTableRow from "./SantaRoomTableRow";
 import SantaroomAlert from "./SantaroomAlert";
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import React from "react";
 
 interface Props {
@@ -56,6 +58,7 @@ const SantaRoomTable = (props: Props) => {
     participant.RoomName.toLowerCase().includes(search.toLowerCase())
   );
 
+
   return (
     <>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -79,17 +82,34 @@ const SantaRoomTable = (props: Props) => {
                 ))}
               </TableRow>
             </TableHead>
-            {loading
-              ? Array.from(new Array(5)).map((_, index) => (
-                  <TableRow key={index}>
-                    {Array.from(new Array(2)).map((_, idx) => (
-                      <TableCell key={idx}>
-                        <Skeleton height={40} />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              : filteredParticipants
+            {loading ? (
+              Array.from(new Array(5)).map((_, index) => (
+                <TableRow key={index}>
+                  {Array.from(new Array(2)).map((_, idx) => (
+                    <TableCell key={idx}>
+                      <Skeleton height={40} />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : filteredParticipants.length < 1 ? (
+              <TableRow>
+                <TableCell colSpan={2} align="center" sx={{ height: 398 }}>
+                  <SentimentDissatisfiedIcon
+                    sx={{ color: "action.disabled", fontSize: "5rem" }}
+                  />
+                  <Typography
+                    color="action.disabled"
+                    fontWeight="500"
+                    fontSize="1.25rem"
+                  >
+                    No Data
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            ) : (
+              <>
+                {filteredParticipants
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((participant, index) => {
                     return (
@@ -99,6 +119,8 @@ const SantaRoomTable = (props: Props) => {
                       />
                     );
                   })}
+              </>
+            )}
           </Table>
         </TableContainer>
         <TablePagination

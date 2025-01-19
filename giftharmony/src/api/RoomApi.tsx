@@ -50,4 +50,11 @@ export const RoomApi = {
     });
     return response.data;
   },
+
+  getAllRoom: async () => {
+    const response = await axios.get<IGetRoom[]>(`${base_url}/getAllRoom`, {
+      withCredentials: true,
+    });
+    return response.data;
+  },
 };

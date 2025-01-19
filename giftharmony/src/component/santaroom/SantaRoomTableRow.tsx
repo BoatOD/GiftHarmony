@@ -1,6 +1,6 @@
 import { TableBody, TableCell, TableRow } from "@mui/material/";
 import GiftPopover from "./GiftPopover";
-import ResultPopover from "./ResultPopover";
+// import ResultPopover from "./ResultPopover";
 import { IRoom } from "../../interface/IJoinRoom";
 
 interface Props {
@@ -29,7 +29,7 @@ const SantaRoomTableRow = (props : Props) => {
               }}
           >
             <GiftPopover participant={participant}/>
-            <ResultPopover/>
+            {/* <ResultPopover/> */}
           </TableCell>
         </TableRow>
       </TableBody>

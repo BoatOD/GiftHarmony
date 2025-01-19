@@ -28,6 +28,7 @@ const App = () => {
                     path="hostroom/joinroom"
                     element={<SantaroomJoinRoom />}
                   />
+                  <Route path="joinroom" element={<SantaroomJoinRoom />} />
                 </Route>
               </Route>
             </Routes>

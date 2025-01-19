@@ -11,9 +11,10 @@ import {
   Typography,
 } from "@mui/material/";
 import sendgift from "../../assets/sendgift.svg";
-import { useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import useJoinRoomForm from "../../hooks/useJoinRoomForm";
 import { LoadingButton } from "@mui/lab";
+import { UserContext } from "../../providers/UserProvider";
 
 interface Props {
   open: boolean;
@@ -22,6 +23,9 @@ interface Props {
 
 const JoinRoomForm = (props: Props) => {
   const { open, onClose } = props;
+  const { profile } = useContext(UserContext);
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  
   const {
     onSubmit,
     register,
@@ -45,6 +49,16 @@ const JoinRoomForm = (props: Props) => {
     clearErrors();
   }, [clearErrors, props.open, reset, setValue]);
 
+  useEffect(() => {
+    if (profile?.name && nameInputRef.current) {
+      nameInputRef.current.focus();
+    }
+  }, [profile?.name]);
+
+  useEffect(() => {
+    setValue("name", profile?.name || "");
+  }, [profile?.name, setValue]);
+  
   return (
     <>
       <Dialog
@@ -116,31 +130,62 @@ const JoinRoomForm = (props: Props) => {
             <Divider>
               <Chip label="Info" size="small" />
             </Divider>
-            <Typography>Name : </Typography>
-            <TextField
-              autoFocus
-              required
-              id="name"
-              label="Type your name"
-              fullWidth
-              variant="outlined"
-              autoComplete="off"
-              error={!!errors?.name}
-              {...register("name", {
-                required: {
-                  value: true,
-                  message: "Name is required",
-                },
-                pattern: {
-                  value: /\S/,
-                  message: "Invalid reason",
-                },
-              })}
-              helperText={errors?.name?.message}
-              inputProps={{
-                maxLength: 20,
-              }}
-            />
+            {profile ? (
+              <>
+                <Typography>Name : </Typography>
+                <TextField
+                  autoFocus
+                  required
+                  id="name"
+                  label="Type your name"
+                  fullWidth
+                  variant="outlined"
+                  autoComplete="off"
+                  defaultValue={profile.name}
+                  value={profile.name || ''}
+                  error={!!errors?.name}
+                  {...register("name", {
+                    pattern: {
+                      value: /\S/,
+                      message: "Invalid reason",
+                    },
+                  })}
+                  helperText={errors?.name?.message}
+                  inputProps={{
+                    maxLength: 20,
+                  }}
+                  inputRef={nameInputRef}
+                />
+              </>
+            ) : (
+              <>
+                <Typography>Name : </Typography>
+                <TextField
+                  autoFocus
+                  required
+                  id="name"
+                  label="Type your name"
+                  fullWidth
+                  variant="outlined"
+                  autoComplete="off"
+                  error={!!errors?.name}
+                  {...register("name", {
+                    required: {
+                      value: true,
+                      message: "Name is required",
+                    },
+                    pattern: {
+                      value: /\S/,
+                      message: "Invalid reason",
+                    },
+                  })}
+                  helperText={errors?.name?.message}
+                  inputProps={{
+                    maxLength: 20,
+                  }}
+                />
+              </>
+            )}
             <Typography>In gift : </Typography>
             <TextField
               autoFocus

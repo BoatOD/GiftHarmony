@@ -5,7 +5,6 @@ const ChristmasTree = () => {
         <>
             <canvas
                 id="canvas"
-                style={{ width: '100vw', height: '100vh' }}
             ></canvas>
             <svg
                 version="1.1"
