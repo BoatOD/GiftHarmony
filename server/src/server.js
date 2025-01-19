@@ -60,6 +60,7 @@ app.use("/getParticipant", require("./app/routes/participantRoutes/getParticipan
 app.use("/exitRoom", require("./app/routes/roomRoutes/exitRoom.js"));
 app.use("/getGiftExchangeByRoomId", require("./app/routes/giftExchangeRoutes/getGiftExchangeRoutes.js"));
 app.use("/exchangeGift", require("./app/routes/giftExchangeRoutes/exchangeGift.js"));
+app.use("/getAllRoom", require("./app/routes/roomRoutes/getAllRoom.js"));
 app.use("/test", require("./app/routes/test.js"));
 
 app.all("*", (req, res) => {
