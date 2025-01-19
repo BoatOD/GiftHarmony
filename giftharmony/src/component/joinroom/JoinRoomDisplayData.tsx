@@ -1,4 +1,4 @@
-import { Grid2 } from "@mui/material/";
+import { Box, CircularProgress, Grid2 } from "@mui/material/";
 import { IGetRoom, IParticipant } from "../../interface/IGetRoom";
 import { useState, useCallback, useEffect } from "react";
 import { RoomApi } from "../../api/RoomApi";
@@ -64,7 +64,27 @@ const JoinRoomDisplayData = (props: Props) => {
         }}
       >
         {loading ? (
-          <>loading</>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100vw",
+              height: "100vh", 
+              backgroundColor: "transparent", 
+            }}
+          >
+            <CircularProgress
+              sx={{
+                color: "black", 
+                visibility: "visible",
+              }}
+            />
+          </Box>
         ) : (
           <>
             <Grid2
