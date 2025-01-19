@@ -144,6 +144,23 @@ const getRoom = async (req, res) => {
   }
 };
 
+const getAllRooms = async (req, res) => {
+  try {
+    const allRooms = await executeQuery(
+      `SELECT RoomId, HostId, Name, Code, DateCreated, isActive 
+       FROM Rooms`,
+      [],
+      [],
+      false
+    );
+    return res.status(200).json(allRooms.recordset);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(error);
+  }
+};
+
+
 const getJoinedRoom = async (req, res) => {
   const userId = req.userId;
   if (!userId || userId < 1)
@@ -226,4 +243,4 @@ const exitRoom = async (req, res) => {
   }
 };
 
-module.exports = { createRoom, joinRoom, getRoom, getJoinedRoom, exitRoom };
+module.exports = { createRoom, joinRoom, getRoom, getJoinedRoom, exitRoom, getAllRooms };
