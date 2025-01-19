@@ -11,10 +11,9 @@ import {
   Typography,
 } from "@mui/material/";
 import sendgift from "../../assets/sendgift.svg";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import useJoinRoomForm from "../../hooks/useJoinRoomForm";
 import { LoadingButton } from "@mui/lab";
-import { UserContext } from "../../providers/UserProvider";
 
 interface Props {
   open: boolean;
@@ -23,8 +22,6 @@ interface Props {
 
 const JoinRoomForm = (props: Props) => {
   const { open, onClose } = props;
-  const { profile } = useContext(UserContext);
-
   const {
     onSubmit,
     register,
@@ -119,60 +116,31 @@ const JoinRoomForm = (props: Props) => {
             <Divider>
               <Chip label="Info" size="small" />
             </Divider>
-            {profile ? (
-              <>
-                <Typography>Name : </Typography>
-                <TextField
-                  autoFocus
-                  required
-                  id="name"
-                  label="Type your name"
-                  fullWidth
-                  variant="outlined"
-                  autoComplete="off"
-                  value={profile.name} 
-                  error={!!errors?.name}
-                  {...register("name", {
-                    pattern: {
-                      value: /\S/,
-                      message: "Invalid reason",
-                    },
-                  })}
-                  helperText={errors?.name?.message}
-                  inputProps={{
-                    maxLength: 20,
-                  }}
-                />
-              </>
-            ) : (
-              <>
-                <Typography>Name : </Typography>
-                <TextField
-                  autoFocus
-                  required
-                  id="name"
-                  label="Type your name"
-                  fullWidth
-                  variant="outlined"
-                  autoComplete="off"
-                  error={!!errors?.name}
-                  {...register("name", {
-                    required: {
-                      value: true,
-                      message: "Name is required",
-                    },
-                    pattern: {
-                      value: /\S/,
-                      message: "Invalid reason",
-                    },
-                  })}
-                  helperText={errors?.name?.message}
-                  inputProps={{
-                    maxLength: 20,
-                  }}
-                />
-              </>
-            )}
+            <Typography>Name : </Typography>
+            <TextField
+              autoFocus
+              required
+              id="name"
+              label="Type your name"
+              fullWidth
+              variant="outlined"
+              autoComplete="off"
+              error={!!errors?.name}
+              {...register("name", {
+                required: {
+                  value: true,
+                  message: "Name is required",
+                },
+                pattern: {
+                  value: /\S/,
+                  message: "Invalid reason",
+                },
+              })}
+              helperText={errors?.name?.message}
+              inputProps={{
+                maxLength: 20,
+              }}
+            />
             <Typography>In gift : </Typography>
             <TextField
               autoFocus
