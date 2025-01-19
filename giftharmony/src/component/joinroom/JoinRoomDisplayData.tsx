@@ -2,7 +2,9 @@ import { Grid2 } from "@mui/material/";
 import { IGetRoom, IParticipant } from "../../interface/IGetRoom";
 import { useState, useCallback, useEffect } from "react";
 import { RoomApi } from "../../api/RoomApi";
-import GiftBox from "./GiftBox";
+import JoinRoomSpinWheel from "./JoinRoomSpinWheel";
+import { IGiftExchange } from "../../interface/IGiftExchange";
+import { GiftExchangeApi } from "../../api/GiftExchangeApi";
 
 interface Props {
   room: IGetRoom;
@@ -10,20 +12,36 @@ interface Props {
 
 const JoinRoomDisplayData = (props: Props) => {
   const { room } = props;
-  const [participants, setParticipants] = useState<IParticipant[]>([]);
+  const [participants, setParticipants] = useState<IParticipant[]>();
+  const [giftExchanges, setGiftExchanges] = useState<IGiftExchange[]>();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const getJoinRoom = useCallback(async () => {
+  const getData = useCallback(async () => {
     setLoading(true);
-    const response = await RoomApi.getParticipant(room.RoomId); 
-    setParticipants(response);
+    const participants = await RoomApi.getParticipant(room.RoomId);
+    setParticipants(participants);
+    await getGiftExchange();
     setLoading(false);
   }, [room.RoomId]);
-  
-  useEffect(() => {
-    getJoinRoom();
-  }, [getJoinRoom]);
 
+  const getGiftExchange = useCallback(async () => {
+    const giftExchanges = await GiftExchangeApi.getGiftExchange(room.RoomId);
+    setGiftExchanges(giftExchanges);
+  }, [room.RoomId]);
+
+  const exchangeGift = async (senderId: number, receiverId: number) => {
+    const res = await GiftExchangeApi.exchangeGift(
+      room.RoomId,
+      senderId,
+      receiverId
+    );
+    console.log(res);
+    await getGiftExchange();
+  };
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   return (
     <Grid2
@@ -32,7 +50,7 @@ const JoinRoomDisplayData = (props: Props) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        mt: 4,
+        my: 4,
       }}
     >
       <Grid2
@@ -48,9 +66,22 @@ const JoinRoomDisplayData = (props: Props) => {
         {loading ? (
           <>loading</>
         ) : (
-          participants.map((participant : IParticipant, index : number) => (
-            <GiftBox key={index} participant={participant} />
-          ))
+          <>
+            <Grid2
+              container
+              direction="column"
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <JoinRoomSpinWheel
+                participants={participants}
+                giftExchanges={giftExchanges}
+                onSpinComplete={exchangeGift}
+              />
+            </Grid2>
+          </>
         )}
       </Grid2>
     </Grid2>

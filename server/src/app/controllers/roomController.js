@@ -67,7 +67,7 @@ const joinRoom = async (req, res) => {
 
   try {
     const foundRoom = await executeQuery(
-      "SELECT * FROM Rooms WHERE Code = @Code",
+      "SELECT * FROM Rooms WHERE Code = @Code AND isActive = 1",
       [roomCode],
       ["Code"],
       false
@@ -78,7 +78,9 @@ const joinRoom = async (req, res) => {
     const roomData = foundRoom.recordset[0];
 
     const foundUser = await executeQuery(
-      "SELECT * FROM Participants WHERE UserId = @UserId AND RoomId = @RoomId",
+      `SELECT * 
+      FROM Participants 
+      WHERE UserId = @UserId AND RoomId = @RoomId AND isActive = 1`,
       [userId, roomData.RoomId],
       ["UserId", "RoomId"],
       false
@@ -130,7 +132,7 @@ const getRoom = async (req, res) => {
     const foundRooms = await executeQuery(
       `SELECT *
       FROM Rooms
-      WHERE HostId = @UserId`,
+      WHERE HostId = @UserId AND isActive = 1`,
       [userId],
       ["UserId"],
       false

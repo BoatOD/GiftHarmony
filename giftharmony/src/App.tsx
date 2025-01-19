@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ColorModeProvider from "./providers/ColorModeProvider";
 import Home from "./pages/home/Home";
-import Userprovider from "./providers/UserProvider";
+import UserProvider from "./providers/UserProvider";
 import SantaroomJoinRoom from "./pages/joinroom/JoinRoom";
 import HostRoom from "./pages/hostroom/HostRoom";
 import SantaRoom from "./pages/santaroom/Santaroom";
@@ -12,7 +12,7 @@ const App = () => {
   return (
     <ColorModeProvider>
       <SnackbarProvider>
-        <Userprovider>
+        <UserProvider>
           <BrowserRouter>
             <Routes>
               <Route path="/">
@@ -32,7 +32,7 @@ const App = () => {
               </Route>
             </Routes>
           </BrowserRouter>
-        </Userprovider>
+        </UserProvider>
       </SnackbarProvider>
     </ColorModeProvider>
   );

@@ -58,6 +58,8 @@ app.use("/getJoinedRoom", require("./app/routes/roomRoutes/getJoinedRoom.js"));
 app.use("/joinWithUserId", require("./app/routes/roomRoutes/joinRoom.js"));
 app.use("/getParticipant", require("./app/routes/participantRoutes/getParticipant.js"));
 app.use("/exitRoom", require("./app/routes/roomRoutes/exitRoom.js"));
+app.use("/getGiftExchangeByRoomId", require("./app/routes/giftExchangeRoutes/getGiftExchangeRoutes.js"));
+app.use("/exchangeGift", require("./app/routes/giftExchangeRoutes/exchangeGift.js"));
 app.use("/test", require("./app/routes/test.js"));
 
 app.all("*", (req, res) => {

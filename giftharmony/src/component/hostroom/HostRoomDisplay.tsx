@@ -1,6 +1,6 @@
 import Grid2 from "@mui/material/Grid2";
 import HostRoomTable from "./HostRoomTable";
-import ChristmasTree from "../ChirstmasTree";
+import ChristmasTree from "../ChristmasTree";
 import { useCallback, useEffect, useState } from "react";
 import { IGetRoom } from "../../interface/IGetRoom";
 import { RoomApi } from "../../api/RoomApi";
@@ -9,7 +9,7 @@ interface Props {
   search: string;
 }
 
-const HostRoomDiaplay = (props: Props) => {
+const HostRoomDisplay = (props: Props) => {
   const { search } = props;
   const [room, setRoom] = useState<IGetRoom[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -38,4 +38,4 @@ const HostRoomDiaplay = (props: Props) => {
   );
 };
 
-export default HostRoomDiaplay;
+export default HostRoomDisplay;

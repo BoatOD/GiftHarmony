@@ -4,7 +4,7 @@ import SearchBox from "../../component/SearchBox";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import hatsanta from "../../assets/hatsanta.svg";
 import { useNavigate } from "react-router-dom";
-import HostRoomDiaplay from "../../component/hostroom/HostRoomDisplay";
+import HostRoomDisplay from "../../component/hostroom/HostRoomDisplay";
 import { useState } from "react";
 
 const HostRoom = () => {
@@ -88,7 +88,7 @@ const HostRoom = () => {
           }}
         >
           <Grid2 size={12}>
-            <HostRoomDiaplay search={search} />
+            <HostRoomDisplay search={search} />
           </Grid2>
         </Grid2>
       </Box>
