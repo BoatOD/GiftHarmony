@@ -1,7 +1,6 @@
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { Box, Dialog, DialogContent, IconButton, Typography } from "@mui/material/";
 import { useState, useEffect } from "react";
-import ConnectorLine from "./ConnectorLine";
 // import GiftBox from "./GiftBox";
 
 interface Props {
@@ -15,7 +14,7 @@ const shuffleArray = (array: number[]) => {
 
 const ResultDialog = (props: Props) => {
   const { open, onClose } = props;
-  const [connections, setConnections] = useState<{ boxAId: string; boxBId: string }[]>([]);
+  const [, setConnections] = useState<{ boxAId: string; boxBId: string }[]>([]);
   const [pairs, setPairs] = useState<[number, number][]>([]);
 
   const boxes = [
@@ -68,35 +67,9 @@ const ResultDialog = (props: Props) => {
         <CloseOutlinedIcon />
       </IconButton>
       <DialogContent>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "40px",
-            position: "relative", 
-            margin: "50px auto",
-          }}
-        >
-          {boxes.map((box) => (
-            <Box
-              key={box.id}
-              sx={{ position: "relative" }}
-              id={`box-${box.id}`}
-            >
-              {/* <GiftBox participant={box.name} /> */}
-            </Box>
-          ))}
-          {connections.map(({ boxAId, boxBId }, index) => (
-            <ConnectorLine
-              key={index}
-              boxAId={boxAId}
-              boxBId={boxBId}
-            />
-          ))}
-        </Box>
 
         <Box sx={{ marginTop: "20px", textAlign: "center" }}>
-          <h3>Shuffle Results:</h3>
+          <h3>Spin Results:</h3>
           <Box>
             {pairs.map(([boxAIndex, boxBIndex], index) => (
               <Box key={index} sx={{ marginBottom: "10px" }}>

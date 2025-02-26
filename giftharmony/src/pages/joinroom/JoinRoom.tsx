@@ -1,7 +1,7 @@
 import {
   Avatar,
   Box,
-  // Button,
+  Button,
   Grid2,
   IconButton,
   Typography,
@@ -9,13 +9,16 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useLocation, useNavigate } from "react-router-dom";
 import santa from "../../assets/santa.svg";
-// import VisibilityIcon from "@mui/icons-material/Visibility";
+import PeopleIcon from "@mui/icons-material/People";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
-import ResultDialog from "../../component/joinroom/ResultDialog";
 import JoinRoomDisplayData from "../../component/joinroom/JoinRoomDisplayData";
+import MemberDialog from "../../component/joinroom/MemberDialog";
+import ResultDialog from "../../component/joinroom/ResultDialog";
 
 const JoinRoom = () => {
   const navigate = useNavigate();
+  const [openMember, setOpenMember] = useState<boolean>(false);
   const [openResult, setOpenResult] = useState<boolean>(false);
   const location = useLocation();
 
@@ -78,17 +81,25 @@ const JoinRoom = () => {
             mt: 3,
           }}
         >
-          {/* <Button
+          <Button
             variant="contained"
-            sx={{ borderRadius: "20", bgcolor: "#62723F", mr: 2 }}
+            sx={{ borderRadius: "20", bgcolor: "#8D4646", mr: 2 }}
             onClick={() => setOpenResult(true)}
           >
-            <VisibilityIcon sx={{ mr: 1 }} /> View Result
-          </Button> */}
+            <VisibilityIcon sx={{ mr: 1 }} /> View Results
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ borderRadius: "20", bgcolor: "#62723F"}}
+            onClick={() => setOpenMember(true)}
+          >
+            <PeopleIcon sx={{ mr: 1 }} /> Members
+          </Button>
         </Grid2>
 
-        <JoinRoomDisplayData  room={room}/>
+        <JoinRoomDisplayData room={room} />
       </Box>
+      <MemberDialog open={openMember} onClose={() => setOpenMember(false)} />
       <ResultDialog open={openResult} onClose={() => setOpenResult(false)} />
     </>
   );
