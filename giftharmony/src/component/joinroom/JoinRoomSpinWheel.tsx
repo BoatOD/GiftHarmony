@@ -95,26 +95,33 @@ const JoinRoomSpinWheel = (props: Props) => {
         <Typography>{spinner.current}</Typography>
       </Grid2>
       <Grid2>
-        {!loading && (
-          <WheelComponent
-            key={segments.join(",")}
-            segments={segments}
-            segColors={segColors}
-            winningSegment={spinner.current}
-            onFinished={(winner) => onFinished(winner)}
-            primaryColor="#E4889C"
-            contrastColor="black"
-            buttonText="Spin"
-            isOnlyOnce={false}
-            size={290}
-            upDuration={100}
-            downDuration={1000}
-            fontFamily="sans-serif"
-          />
+        {segments.length < 1 ? (
+          <>
+            {/* ใส่อะไรสักอย่างไม่ให้มันโล่งเวลาหมุนวงล้อหมดแล้ว */}
+          </>
+        ) : (
+          !loading && (
+            <WheelComponent
+              key={segments.join(",")}
+              segments={segments}
+              segColors={segColors}
+              winningSegment={spinner.current}
+              onFinished={(winner) => onFinished(winner)}
+              primaryColor="#E4889C"
+              contrastColor="black"
+              buttonText="Spin"
+              isOnlyOnce={false}
+              size={290}
+              upDuration={100}
+              downDuration={1000}
+              fontFamily="sans-serif"
+            />
+          )
         )}
       </Grid2>
       <Grid2>
-        {giftExchanges && giftExchanges.length > 0 &&
+        {giftExchanges &&
+          giftExchanges.length > 0 &&
           giftExchanges.map((item, index) => (
             <Box
               key={index}
@@ -128,14 +135,22 @@ const JoinRoomSpinWheel = (props: Props) => {
               }}
             >
               <Typography sx={{ fontSize: 20, marginRight: 2 }}>
-                {participants?.find(e => e.ParticipantId === item.SenderId)?.Name}
+                {
+                  participants?.find((e) => e.ParticipantId === item.SenderId)
+                    ?.Name
+                }
               </Typography>
               <Typography
                 sx={{ fontSize: 20, fontWeight: 600, marginRight: 2 }}
               >
                 แลกของขวัญกับ
               </Typography>
-              <Typography sx={{ fontSize: 20 }}>{participants?.find(e => e.ParticipantId === item.ReceiverId)?.Name}</Typography>
+              <Typography sx={{ fontSize: 20 }}>
+                {
+                  participants?.find((e) => e.ParticipantId === item.ReceiverId)
+                    ?.Name
+                }
+              </Typography>
             </Box>
           ))}
       </Grid2>
