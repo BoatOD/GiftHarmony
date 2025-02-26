@@ -15,6 +15,8 @@ export interface IParticipant {
 export interface IRoom {
   RoomId: number;
   HostId: number;
+  FirstName?: string;
+  LastName?: string;
   RoomName: string;
   Code: string;
   DateCreated: string;

@@ -99,7 +99,7 @@ const JoinRoom = () => {
 
         <JoinRoomDisplayData room={room} />
       </Box>
-      <MemberDialog open={openMember} onClose={() => setOpenMember(false)} />
+      <MemberDialog open={openMember} onClose={() => setOpenMember(false)} roomId={room.RoomId} hostName={room.FirstName}/>
       <ResultDialog open={openResult} onClose={() => setOpenResult(false)} />
     </>
   );

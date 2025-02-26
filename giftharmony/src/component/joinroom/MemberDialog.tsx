@@ -5,36 +5,36 @@ import {
   DialogContent,
   Divider,
   IconButton,
-  Tooltip,
+  Skeleton,
   Typography,
-  Button,
-  Paper,
 } from "@mui/material/";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { RoomApi } from "../../api/RoomApi";
+import { IParticipant } from "../../interface/IGetRoom";
+import MemberChilde from "./MemberChilde";
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  roomId: number;
+  hostName: string;
 }
 
 const MemberDialog = (props: Props) => {
-  const { open, onClose } = props;
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  const { open, onClose, roomId, hostName } = props;
+  const [participants, setParticipants] = useState<IParticipant[]>();
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const handleDeleteClick = () => {
-    setConfirmDelete(true);
-  };
+  const getParticipants = useCallback(async () => {
+    setLoading(true);
+    const participants = await RoomApi.getParticipant(roomId);
+    setParticipants(participants);
+    setLoading(false);
+  }, [roomId]);
 
-  const handleConfirmDelete = () => {
-    // TODO: Add delete logic here
-    console.log("Participant deleted");
-    setConfirmDelete(false);
-  };
-
-  const handleCancelDelete = () => {
-    setConfirmDelete(false);
-  };
+  useEffect(() => {
+    if (open === true) getParticipants();
+  }, [getParticipants, open]);
 
   return (
     <Dialog
@@ -46,6 +46,7 @@ const MemberDialog = (props: Props) => {
           backgroundColor: "#FFEDED",
           borderRadius: "16px",
           border: "5px solid #FFFFFF",
+          width:"300px"
         },
       }}
     >
@@ -61,53 +62,28 @@ const MemberDialog = (props: Props) => {
             <Typography sx={{ mr: 2, fontSize: "18px", fontWeight: 600 }}>
               Host :
             </Typography>
-            <Typography sx={{ fontSize: "18px" }}>
-              Jiranthanin Supakad
-            </Typography>
+            <Typography sx={{ fontSize: "18px" }}>{hostName}</Typography>
           </div>
           <Divider sx={{ my: 2 }} />
-          <Typography
-            sx={{ textAlign: "left", mr: 2, fontSize: "18px", fontWeight: 600 }}
-          >
-            Members :
-          </Typography>
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
-            <Typography sx={{ fontSize: "18px" , mb : 1}}>Jiranthanin1</Typography>
-
-            {!confirmDelete && <Tooltip title="Delete Participants" arrow placement="top">
-              <IconButton onClick={handleDeleteClick}>
-                <PersonRemoveIcon sx={{ color: "darkred" }} />
-              </IconButton>
-            </Tooltip> }
-          </div>
-
-          {confirmDelete && (
-            <Paper sx={{ p : 1, textAlign: "center" }}>
-                <Typography sx={{ mb: 1 }}>
-                  Are you sure you want to <br/> delete this participant?
-                </Typography>
-                <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={handleConfirmDelete}
-                  >
-                    Confirm
-                  </Button>
-                  <Button variant="outlined" onClick={handleCancelDelete}>
-                    Cancel
-                  </Button>
-                </Box>
-            </Paper>
+          {loading ? (
+            <Box display="flex" flexDirection="column" gap={2}>
+              <Skeleton variant="rectangular" width={210} height={50} />
+              <Skeleton variant="rectangular" width={210} height={50} />
+              <Skeleton variant="rectangular" width={210} height={50} />
+              <Skeleton variant="rectangular" width={210} height={50} />
+            </Box>
+          ) : (
+            participants &&
+            participants.length > 0 &&
+            participants.map((participant, index) => (
+              <div key={index}>
+                <MemberChilde
+                  participant={participant}
+                  roomId={roomId}
+                  deleteSucceed={getParticipants}
+                />
+              </div>
+            ))
           )}
         </Box>
       </DialogContent>

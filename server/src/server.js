@@ -57,6 +57,7 @@ app.use("/getRoom", require("./app/routes/roomRoutes/getRoom.js"));
 app.use("/getJoinedRoom", require("./app/routes/roomRoutes/getJoinedRoom.js"));
 app.use("/joinWithUserId", require("./app/routes/roomRoutes/joinRoom.js"));
 app.use("/getParticipant", require("./app/routes/participantRoutes/getParticipant.js"));
+app.use("/deleteParticipant", require("./app/routes/participantRoutes/deleteParticipant.js"));
 app.use("/exitRoom", require("./app/routes/roomRoutes/exitRoom.js"));
 app.use("/getGiftExchangeByRoomId", require("./app/routes/giftExchangeRoutes/getGiftExchangeRoutes.js"));
 app.use("/exchangeGift", require("./app/routes/giftExchangeRoutes/exchangeGift.js"));

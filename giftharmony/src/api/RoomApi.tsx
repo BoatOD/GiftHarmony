@@ -35,10 +35,10 @@ export const RoomApi = {
 
   getParticipant: async (roomId: number) => {
     const response = await axios.post<IParticipant[]>(
-      `${base_url}/getParticipant`, 
-      { roomId : roomId }, 
+      `${base_url}/getParticipant`,
+      { roomId: roomId },
       {
-        withCredentials: true, 
+        withCredentials: true,
       }
     );
     return response.data;
@@ -55,6 +55,17 @@ export const RoomApi = {
     const response = await axios.get<IGetRoom[]>(`${base_url}/getAllRoom`, {
       withCredentials: true,
     });
+    return response.data;
+  },
+
+  deleteParticipant: async (participantId: number, roomId: number) => {
+    const response = await axios.post(
+      `${base_url}/deleteParticipant`,
+      { participantId: participantId, roomId: roomId },
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
   },
 };

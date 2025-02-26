@@ -131,8 +131,9 @@ const getRoom = async (req, res) => {
   try {
     const foundRooms = await executeQuery(
       `SELECT *
-      FROM Rooms
-      WHERE HostId = @UserId AND isActive = 1`,
+      FROM Rooms as r
+      Join Users as u on HostId = UserId
+      WHERE HostId = @UserId AND r.isActive = 1`,
       [userId],
       ["UserId"],
       false
