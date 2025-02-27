@@ -97,7 +97,17 @@ const JoinRoomSpinWheel = (props: Props) => {
       <Grid2>
         {segments.length < 1 ? (
           <>
-            {/* ใส่อะไรสักอย่างไม่ให้มันโล่งเวลาหมุนวงล้อหมดแล้ว */}
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="350px" 
+              width="100%"
+            >
+              <Typography sx={{ fontSize: 20, fontWeight: 600 }}>
+                จบการหมุนวงล้อแล้ว
+              </Typography>
+            </Box>
           </>
         ) : (
           !loading && (
