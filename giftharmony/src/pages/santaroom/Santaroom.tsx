@@ -3,8 +3,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import hatsanta from "../../assets/hatsanta.svg";
 import { useNavigate } from "react-router-dom";
 import SearchBox from "../../component/SearchBox";
-import SantaRoomTable from "../../component/santaroom/SantaroomTable";
 import { useState } from "react";
+import SantaRoomTable from "../../component/santaroom/Santaroomtable";
 
 const SantaRoom = () => {
   const navigate = useNavigate();

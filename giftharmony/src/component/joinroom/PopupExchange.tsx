@@ -18,7 +18,7 @@ const PopupExchange = (props: Props) => {
     <>
       <Dialog {...DialogProps}>
         <DialogTitle id="alert-dialog-title">
-          {isFirstRound ? "First spinner is " + winner : "Winner is " + winner}
+          {isFirstRound ? "First spinner is " + winner : "Winner Exchange is " + winner}
         </DialogTitle>
         <DialogActions>
           {/* <Button

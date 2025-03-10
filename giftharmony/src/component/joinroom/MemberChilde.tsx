@@ -44,17 +44,6 @@ const MemberChilde = (props: Props) => {
   };
   return (
     <>
-      <Typography
-        sx={{
-          textAlign: "left",
-          mr: 2,
-          fontSize: "18px",
-          fontWeight: 600,
-        }}
-      >
-        Members :
-      </Typography>
-
       <div
         style={{
           display: "flex",
@@ -65,7 +54,7 @@ const MemberChilde = (props: Props) => {
         }}
       >
         <Typography sx={{ fontSize: "18px", mb: 1 }}>
-          {participant.Name}
+          {participant.Name?.trim() ? participant.Name : "ไม่ระบุตัวตน"}
         </Typography>
 
         {!confirmDelete && (

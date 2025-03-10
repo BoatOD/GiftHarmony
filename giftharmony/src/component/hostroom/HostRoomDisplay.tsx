@@ -17,7 +17,7 @@ const HostRoomDisplay = (props: Props) => {
   const getRoom = useCallback(async () => {
     setLoading(true);
     const response = await RoomApi.getRoom();
-    setRoom(response);
+    setRoom(response.reverse());
     setLoading(false);
   }, []);
 

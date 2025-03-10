@@ -25,19 +25,48 @@ const JoinRoomDisplayData = (props: Props) => {
   }, [room.RoomId]);
 
   const getGiftExchange = useCallback(async () => {
+    const cacheKey = `giftExchanges_${room.RoomId}`;
+  
+    const cachedData = localStorage.getItem(cacheKey);
+    if (cachedData) {
+      setGiftExchanges(JSON.parse(cachedData));
+      return; // ถ้ามีแคชแล้ว ไม่ต้องเรียก API
+    }
+  
     const giftExchanges = await GiftExchangeApi.getGiftExchange(room.RoomId);
     setGiftExchanges(giftExchanges);
+    localStorage.setItem(cacheKey, JSON.stringify(giftExchanges));
   }, [room.RoomId]);
+  
 
   const exchangeGift = async (senderId: number, receiverId: number) => {
-    const res = await GiftExchangeApi.exchangeGift(
-      room.RoomId,
-      senderId,
-      receiverId
-    );
+    const cacheKey = `giftExchanges_${room.RoomId}`;
+
+    const res = await GiftExchangeApi.exchangeGift(room.RoomId, senderId, receiverId);
     console.log(res);
-    await getGiftExchange();
+  
+    if (!res || !res.GiftExchangeId) {
+      console.error("Failed to exchange gift");
+      return;
+    }
+  
+    const newExchange: IGiftExchange = {
+      GiftExchangeId: res.GiftExchangeId, 
+      RoomId: room.RoomId,
+      SenderId: senderId,
+      ReceiverId: receiverId,
+      DateCreated: new Date().toISOString(), 
+    };
+  
+    setGiftExchanges((prev) => {
+      const updatedExchanges = prev ? [...prev, newExchange] : [newExchange];
+  
+      localStorage.setItem(cacheKey, JSON.stringify(updatedExchanges));
+  
+      return updatedExchanges;
+    });
   };
+  
 
   useEffect(() => {
     getData();
@@ -96,6 +125,7 @@ const JoinRoomDisplayData = (props: Props) => {
               }}
             >
               <JoinRoomSpinWheel
+                room={room}
                 participants={participants}
                 giftExchanges={giftExchanges}
                 onSpinComplete={exchangeGift}

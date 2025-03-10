@@ -1,25 +1,26 @@
 import { Box, Grid2, Typography } from "@mui/material/";
 import WheelComponent from "react-wheel-of-prizes-react18-compatible";
-import { IParticipant } from "../../interface/IGetRoom";
+import { IGetRoom, IParticipant } from "../../interface/IGetRoom";
 import { useEffect, useRef, useState } from "react";
 import { IGiftExchange } from "../../interface/IGiftExchange";
 import PopupExchange from "./PopupExchange";
 
 export interface Props {
+  room : IGetRoom;
   participants?: IParticipant[];
   giftExchanges?: IGiftExchange[];
   onSpinComplete: (senderId: number, receiverId: number) => void;
 }
 
 const JoinRoomSpinWheel = (props: Props) => {
-  const { participants, giftExchanges, onSpinComplete } = props;
+  const { room, participants, giftExchanges, onSpinComplete } = props;
   const [loading, setLoading] = useState<boolean>(true);
   const [segments, setSegments] = useState<string[]>([]);
-  const [winners, setWinners] = useState<string[]>([]);
+  const [, setWinners] = useState<string[]>([]);
   const spinner = useRef<string>("Select First Spinner.");
   const [isFirstRound, setIsFirstRound] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
-  const [filteredPar, setFilteredPar] = useState<IParticipant[]>();
+  const [, setFilteredPar] = useState<IParticipant[]>();
 
   const generateRandomPastelColor = (): string => {
     const randomValue = () => Math.floor(Math.random() * 150) + 180;
@@ -70,29 +71,41 @@ const JoinRoomSpinWheel = (props: Props) => {
   useEffect(() => {
     if (participants && participants.length > 0) {
       setLoading(true);
+      const cacheKey = `giftExchanges_${room.RoomId}`;
 
-      const filteredPars =
-        giftExchanges && giftExchanges.length > 0
-          ? participants.filter(
-              (participant) =>
-                !giftExchanges.some(
-                  (exchange) => exchange.SenderId === participant.ParticipantId
-                )
+      const cachedData = localStorage.getItem(cacheKey);
+      const parsedGiftExchanges: IGiftExchange[] = cachedData
+        ? JSON.parse(cachedData)
+        : giftExchanges || [];
+
+      const filteredPars = parsedGiftExchanges.length
+        ? participants.filter((participant) =>
+            !parsedGiftExchanges.some(
+              (exchange: IGiftExchange) =>
+                exchange.SenderId === participant.ParticipantId
             )
-          : participants;
-      setFilteredPar(participants);
-      const names = filteredPars.map(
-        (item) => `${item.ParticipantId}.${item.Name || "ไม่ระบุ"}`
+          )
+        : participants;
+
+      setFilteredPar(filteredPars);
+      setSegments(
+        filteredPars.map(
+          (item) => `${item.ParticipantId}.${item.Name || "ไม่ระบุ"}`
+        )
       );
-      setSegments(names);
       setLoading(false);
     }
-  }, [giftExchanges, participants]);
+  }, [room, giftExchanges, participants]);
+  
 
   return (
     <>
       <Grid2>
-        <Typography>{spinner.current}</Typography>
+        {segments.length < 1 && giftExchanges && giftExchanges.length > 0 ? (
+          <Typography>{spinner.current}</Typography>
+        ) : (
+          <></>
+        )}
       </Grid2>
       <Grid2>
         {segments.length < 1 ? (
@@ -101,12 +114,18 @@ const JoinRoomSpinWheel = (props: Props) => {
               display="flex"
               justifyContent="center"
               alignItems="center"
-              height="350px" 
+              height="350px"
               width="100%"
             >
-              <Typography sx={{ fontSize: 20, fontWeight: 600 }}>
-                จบการหมุนวงล้อแล้ว
-              </Typography>
+              {giftExchanges && giftExchanges.length > 0 ? (
+                <Typography sx={{ fontSize: 20, fontWeight: 600 }}>
+                  จบการหมุนวงล้อแล้ว
+                </Typography>
+              ) : (
+                <Typography sx={{ fontSize: 20, fontWeight: 600 }}>
+                  กำลังรอเพื่อนๆ มาร่วมสนุกด้วยกัน!
+                </Typography>
+              )}
             </Box>
           </>
         ) : (
@@ -135,27 +154,39 @@ const JoinRoomSpinWheel = (props: Props) => {
           giftExchanges.map((item, index) => (
             <Box
               key={index}
-              style={{
+              sx={{
                 display: "flex",
                 alignItems: "center",
-                padding: "10px 10px",
+                gap: 2,
+                padding: "12px 16px",
                 border: "2px solid #A5BF94",
-                borderRadius: "8px",
+                borderRadius: "12px",
                 width: "fit-content",
+                background: "linear-gradient(135deg, #E3F2FD 0%, #F1F8E9 100%)",
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                transition: "transform 0.2s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  boxShadow: "0px 6px 14px rgba(0, 0, 0, 0.15)",
+                },
               }}
             >
-              <Typography sx={{ fontSize: 20, marginRight: 2 }}>
+              <Typography
+                sx={{ fontSize: 20, fontWeight: 500, color: "#2E7D32" }}
+              >
                 {
                   participants?.find((e) => e.ParticipantId === item.SenderId)
                     ?.Name
                 }
               </Typography>
               <Typography
-                sx={{ fontSize: 20, fontWeight: 600, marginRight: 2 }}
+                sx={{ fontSize: 20, fontWeight: 600, color: "#37474F" }}
               >
                 แลกของขวัญกับ
               </Typography>
-              <Typography sx={{ fontSize: 20 }}>
+              <Typography
+                sx={{ fontSize: 20, fontWeight: 500, color: "#D84315" }}
+              >
                 {
                   participants?.find((e) => e.ParticipantId === item.ReceiverId)
                     ?.Name
