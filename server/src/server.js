@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
+const compression = require("compression");
 require("dotenv").config();
 const corsOptions = require("./configuration/corsOptions");
 const { connect } = require("./app/middleware/db.js");
@@ -26,6 +27,9 @@ const memoryCache = new NodeCache({ stdTTL: 60 }); // Cache 60s
 // Middleware: Logging & Profiling
 app.use(morgan("dev"));
 app.use(responseTime());
+
+// Enable Compression (Gzip & Brotli)
+app.use(compression());
 
 // Custom middleware logger
 app.use(logger);
@@ -67,12 +71,30 @@ const cacheMiddleware = (req, res, next) => {
   });
 };
 
-
-//serve static files with caching headers
-app.use("/", express.static(path.join(__dirname, "/public"), {
-  maxAge: "1d", // Cache static files for 1 day
-  etag: true,
+// Serve Static Files with Local CDN & Enhanced Caching
+app.use(express.static(path.join(__dirname, 'cdn'), {
+  maxAge: '7d', // Cache for 7 days
+  etag: true, // Enable ETag
+  lastModified: true, // Enable Last-Modified
+  setHeaders: (res, path) => {
+    if (path.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache');
+    } else {
+      res.setHeader('Cache-Control', 'public, max-age=604800');
+    }
+  }
 }));
+
+// Serve Media Files from Local CDN
+app.get('/media/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, 'cdn', 'media', filename);
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      res.status(404).send("File not found");
+    }
+  });
+});
 
 // Routes
 app.use("/", require("./app/routes/root"));
@@ -109,6 +131,4 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
+app.listen(PORT, () => console.log(`Server running on port ${PORT} with Local CDN, Compression, and Optimized Caching!`));
