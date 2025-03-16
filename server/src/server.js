@@ -11,6 +11,21 @@ const verifyJWT = require("./app/middleware/verifyJWT");
 const cookieParser = require('cookie-parser');
 const credentials = require('./app/middleware/credentials');
 const PORT = process.env.PORT || 3500;
+const morgan = require("morgan");
+const responseTime = require("response-time");
+const redis = require("redis");
+const NodeCache = require("node-cache");
+
+// Setup Redis Client
+const redisClient = redis.createClient();
+redisClient.on('error', (err) => console.error('Redis Error:', err));
+
+// Setup In-Memory Cache
+const memoryCache = new NodeCache({ stdTTL: 60 }); // Cache 60s
+
+// Middleware: Logging & Profiling
+app.use(morgan("dev"));
+app.use(responseTime());
 
 // Custom middleware logger
 app.use(logger);
@@ -39,8 +54,25 @@ app.use(express.json());
 //middleware for cookies
 app.use(cookieParser());
 
-//serve static files
-app.use("/", express.static(path.join(__dirname, "/public")));
+// Middleware: Cache Middleware (Redis)
+const cacheMiddleware = (req, res, next) => {
+  const key = req.originalUrl;
+  redisClient.get(key, (err, data) => {
+    if (err) throw err;
+    if (data) {
+      res.send(JSON.parse(data));
+    } else {
+      next();
+    }
+  });
+};
+
+
+//serve static files with caching headers
+app.use("/", express.static(path.join(__dirname, "/public"), {
+  maxAge: "1d", // Cache static files for 1 day
+  etag: true,
+}));
 
 // Routes
 app.use("/", require("./app/routes/root"));
@@ -78,3 +110,5 @@ app.all("*", (req, res) => {
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
