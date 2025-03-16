@@ -72,7 +72,7 @@ const cacheMiddleware = (req, res, next) => {
 };
 
 // Serve Static Files with Local CDN & Enhanced Caching
-app.use(express.static(path.join(__dirname, 'cdn'), {
+app.use("/", express.static(path.join(__dirname, "/public"), {
   maxAge: '7d', // Cache for 7 days
   etag: true, // Enable ETag
   lastModified: true, // Enable Last-Modified
@@ -85,16 +85,6 @@ app.use(express.static(path.join(__dirname, 'cdn'), {
   }
 }));
 
-// Serve Media Files from Local CDN
-app.get('/media/:filename', (req, res) => {
-  const filename = req.params.filename;
-  const filePath = path.join(__dirname, 'cdn', 'media', filename);
-  res.sendFile(filePath, (err) => {
-    if (err) {
-      res.status(404).send("File not found");
-    }
-  });
-});
 
 // Routes
 app.use("/", require("./app/routes/root"));
